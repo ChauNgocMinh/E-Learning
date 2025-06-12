@@ -4,6 +4,7 @@ using Ecommerce_Project.Mappings;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+Console.WriteLine($"Environment: {builder.Environment.EnvironmentName}");
 
 builder.Services
     .AddAppDbContext(builder.Configuration)

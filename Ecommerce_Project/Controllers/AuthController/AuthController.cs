@@ -65,6 +65,6 @@ public class AuthController : Controller
     public async Task<IActionResult> Logout()
     {
         await _signInManager.SignOutAsync();
-        return RedirectToAction("Login", "Account");
+        return RedirectToAction("Login", "Auth");
     }
 }
