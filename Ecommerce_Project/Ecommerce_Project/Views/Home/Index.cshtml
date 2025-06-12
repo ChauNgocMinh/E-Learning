@@ -1,0 +1,9 @@
+﻿@model Ecommerce_Project.Models.Default
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="form-group">
+    @Html.EditorFor(m => m.Description, "CkEditor")
+</div>
+<button type="submit" class="btn btn-primary mt-2">Save</button>
