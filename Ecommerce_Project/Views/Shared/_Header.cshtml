@@ -1,0 +1,138 @@
+﻿<style>
+    .top-bar {
+        background: #f8f9fa;
+    }
+
+    .navbar {
+        top: 0;
+        z-index: 1030;
+        background: #8dd8b5;
+        padding: 0 0 5px 0;
+    }
+
+    .navbar-nav .nav-link.active {
+        background-color: #fff !important;
+        border-radius: 6px;
+        color: #000 !important;
+        font-weight: 600;
+    }
+
+    .offcanvas-start {
+        width: 250px;
+    }
+
+    .logo {
+        font-size: 20px;
+        font-weight: bold;
+        color: #007bff;
+    }
+
+    .btn-login {
+        color: white !important;
+        background: #ff6d3a;
+        border-radius: 32px;
+    }
+
+    .btn-login:hover {
+        background: #cc3a07;
+    }
+</style>
+<div class="top-bar d-flex justify-content-between align-items-center container-system">
+    <img class="mx-1" height="37" width="80" src="/img/logo/Logo-power.svg" alt="icon">
+    <div class="d-none d-md-block">
+        <ul class="navbar-nav flex-row">
+            <li class="nav-item d-flex align-items-center me-2">
+                <a class="fs-7 fw-bold" href="/">Cách luyện tập FREE</a>
+            </li>
+            <li class="nav-item d-flex align-items-center me-2">
+                <a class="fs-7 fw-bold" href="/">Group luyện Writing</a>
+            </li>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <li class="nav-item me-2">
+                    <span class="nav-link text-dark">Hello, @User.Identity.Name</span>
+                </li>
+                <li class="nav-item">
+                    <form asp-controller="Auth" asp-action="Logout" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-outline-danger btn-sm">Logout</button>
+                    </form>
+                </li>
+            }
+            else
+            {
+                <li class="nav-item me-2">
+                    <a class="btn btn-login fs-7 fw-bold" asp-controller="Auth" asp-action="Login">Đăng nhập</a>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+<nav class="navbar navbar-expand-md">
+    <div class="container-fluid">
+
+        <!-- Nút menu mobile -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Menu desktop -->
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-center">
+                <li class="nav-item d-flex align-items-center me-3">
+                    <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home"
+                                                && ViewContext.RouteData.Values["action"]?.ToString() == "Index"
+                                                ? "active" : "")"
+                       asp-controller="Home" asp-action="Index">
+                        <i class="bi bi-house-door-fill me-1 text-success"></i>
+                        Trang chủ
+                    </a>
+                </li>
+
+                <li class="nav-item d-flex align-items-center me-3">
+                    <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home"
+                                                && ViewContext.RouteData.Values["action"]?.ToString() == "Example"
+                                                ? "active" : "")"
+                       asp-controller="Home" asp-action="Example">
+                        <i class="bi bi-lightning-charge-fill me-1 text-warning"></i>
+                        Khoá học E-learning
+                    </a>
+                </li>
+
+                <li class="nav-item d-flex align-items-center me-3">
+                    <i class="bi bi-display me-1 text-primary"></i>
+                    <a class="nav-link text-dark" href="#">Luyện tập 4 kỹ năng</a>
+                </li>
+
+                <li class="nav-item d-flex align-items-center me-3">
+                    <i class="bi bi-file-earmark-text me-1 text-success"></i>
+                    <a class="nav-link text-dark" href="#">Bài mẫu Writing 8.0+</a>
+                </li>
+
+                <li class="nav-item d-flex align-items-center">
+                    <i class="bi bi-patch-question me-1 text-success"></i>
+                    <a class="nav-link text-dark" href="#">YouPass là gì?</a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Offcanvas menu (mobile) -->
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasMenu">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title">Menu</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body">
+        <ul class="navbar-nav">
+            <li class="nav-item"><a class="nav-link" href="#">Trang chủ</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Khoá học E-learning</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Luyện tập 4 kỹ năng</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Bài mẫu Writing 8.0+</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">YouPass là gì?</a></li>
+        </ul>
+        <hr>
+        <button class="btn btn-outline-primary w-100">Login</button>
+    </div>
+</div>

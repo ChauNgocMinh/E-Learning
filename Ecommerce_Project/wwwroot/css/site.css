@@ -1,22 +1,36 @@
-html {
-  font-size: 14px;
-}
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap');
 
-@media (min-width: 768px) {
-  html {
+* {
     font-size: 16px;
-  }
+    font-family: Nunito, Nunito Fallback;
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+a {
+    text-decoration: none !important;
+    color: #2b3242 !important;
 }
 
-html {
-  position: relative;
-  min-height: 100%;
+p {
+    margin: 0 !important;
+    color: #2b3242 !important;
 }
 
-body {
-  margin-bottom: 60px;
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+footer {
+    padding-top: 26px;
+    padding-bottom: 26px;
+}
+
+.container-system {
+    max-width: 1540px;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+}
+
+.fs-7 {
+    font-size: 0.875rem !important;
 }
