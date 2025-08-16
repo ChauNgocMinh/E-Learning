@@ -8,5 +8,10 @@ namespace Ecommerce_Project.Controllers
         {
             return View();
         }
+
+        public IActionResult Example()
+        {
+            return View();
+        }
     }
 }

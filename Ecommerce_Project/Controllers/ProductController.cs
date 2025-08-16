@@ -4,8 +4,6 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce_Project.Controllers;
-[ApiController]
-[Route("api/[controller]")]
 public class ProductController : Controller
 {
     private readonly IMediator _mediator;
