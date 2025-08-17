@@ -31,6 +31,15 @@ footer {
     padding-right: 1.25rem;
 }
 
+.text-orange {
+    color: #ff6d3a;
+}
+
 .fs-7 {
     font-size: 0.875rem !important;
+    line-height: 18px;
+}
+
+.fs-8 {
+    font-size: 0.8125rem !important; 
 }
