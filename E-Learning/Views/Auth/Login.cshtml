@@ -1,0 +1,20 @@
+﻿@using E_Learning.ViewModel
+@model LoginViewModel
+
+<h2>Login</h2>
+<form asp-action="Login" method="post">
+    <div>
+        <label asp-for="UserName"></label>
+        <input asp-for="UserName" />
+        <span asp-validation-for="UserName"></span>
+    </div>
+    <div>
+        <label asp-for="Password"></label>
+        <input asp-for="Password" type="password" />
+        <span asp-validation-for="Password"></span>
+    </div>
+    <div>
+        <input asp-for="RememberMe" type="checkbox" /> Remember me
+    </div>
+    <button type="submit">Login</button>
+</form>
