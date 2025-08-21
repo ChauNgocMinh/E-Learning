@@ -2,107 +2,86 @@
     ViewData["Title"] = "Home Page";
 }
 <style>
-    .home {
-    }
-
-    /* ảnh lớn bên trái */
-    .main-images {
-        position: relative;
-        min-height: 500px;
-    }
-
     .image-wrapper {
-        background-color:antiquewhite; /* Nền mặc định */
-        padding: 10px;
+        background-color:#fff0eb; 
+        padding: 60px 10px 60px 10px;
         border-radius: 10px;
         transition: background-color 0.3s ease;
     }
 
-        .image-wrapper img {
-            display: block;
-            margin: 0 auto;
-        }
-
-    .main-images img {
-        width: 100%;
-        height: 500px;
-        object-fit: contain;
-        opacity: 0;
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 0;
-        transition: opacity 0.4s ease;
+    .image-wrapper img {
+        display: block;
+        margin: 0 auto;
     }
 
-        .main-images img.active {
-            opacity: 1;
-            z-index: 1;
-        }
+    .main-images > div {
+        display: none;
+    }
+
+    .main-images > div.active {
+        display: block;
+    }
 
     /* thumbnail bên phải */
-    .item_img_right {
+    .col-right {
         position: relative;
         margin: 0 auto;
     }
 
-    .home .item_img_right .img-wrapper {
+    .home .col-right .img-wrapper {
         position: relative;
         overflow: hidden;
         cursor: pointer;
         border-radius: 8px;
     }
 
-        .home .item_img_right .img-wrapper img {
-            display: block;
-            width: 100%;
-            transition: transform 0.3s ease;
-        }
+    .home .col-right .img-wrapper img {
+        display: block;
+        width: 100%;
+        transition: transform 0.3s ease;
+    }
 
-        .home .item_img_right .img-wrapper:hover img {
-            transform: scale(1.05);
-        }
+    .home .col-right .img-wrapper:hover img {
+        transform: scale(1.05);
+    }
 
-        /* overlay mờ */
-        .home .item_img_right .img-wrapper::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
+    .home .col-right .img-wrapper::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
 
-        .home .item_img_right .img-wrapper:hover::after {
-            opacity: 1;
-        }
+    .home .col-right .img-wrapper:hover::after {
+        opacity: 1;
+    }
 
-        /* chữ Luyện tập ngay */
-        .home .item_img_right .img-wrapper span {
-            position: absolute;
-            bottom: -40px; /* ẩn dưới */
-            left: 50%;
-            transform: translateX(-50%);
-            color: #fff;
-            font-weight: 600;
-            background: rgba(0,0,0,0.6);
-            padding: 6px 12px;
-            border-radius: 20px;
-            opacity: 0;
-            transition: all 0.4s ease;
-            pointer-events: none;
-        }
+    .home .col-right .img-wrapper span {
+        position: absolute;
+        bottom: -40px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #fff;
+        font-weight: 600;
+        background: rgba(0,0,0,0.6);
+        padding: 6px 12px;
+        border-radius: 20px;
+        opacity: 0;
+        transition: all 0.4s ease;
+        pointer-events: none;
+    }
 
-        .home .item_img_right .img-wrapper:hover span {
-            bottom: 50%;
-            transform: translate(-50%, 50%);
-            opacity: 1;
-        }
+    .home .col-right .img-wrapper:hover span {
+        bottom: 50%;
+        transform: translate(-50%, 50%);
+        opacity: 1;
+    }
 
-    /* thanh highlight */
     .highlight-bar {
         position: absolute;
         height: 6px;
@@ -117,54 +96,59 @@
 </style>
 
 <div class="home">
-    <div class="list_item_img row">
-        <!-- ảnh lớn bên trái -->
-        <div class="item_img_left col-md-7 col-left">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="image-wrapper" id="imageWrapper">
-                        <div class="main-images">
-                            <img src="/img/logo/logo-homepage-main.svg" class="img-fluid active" id="main-image" />
-                            <img src="/img/logo/item_img_main_01.png" class="img-fluid" />
-                            <img src="/img/logo/item_img_main_02.png" class="img-fluid" />
-                            <img src="/img/logo/item_img_main_03.png" class="img-fluid" />
-                            <img src="/img/logo/item_img_main_04.png" class="img-fluid" />
-                        </div>
-                    </div>
-                </div>
+    <div class="list-item-img row">
+        <div class="col-md-7 col-left main-images image-wrapper" id="imageWrapper">
+            <div class="active">
+                <img src="/img/logo/hero-title.svg" width="561" height="54" alt="none" />
+                <img src="/img/logo/logo-homepage-main.svg" alt="none">
+            </div>
+            <div>
+                <img src="/img/logo/hero-title.svg" width="561" height="54" alt="none" />
+                <img src="/img/logo/item-img-main-01.png" alt="none" />
+            </div>
+            <div>
+                <img src="/img/logo/hero-title.svg" width="561" height="54" alt="none" />
+                <img src="/img/logo/item-img-main-02.png" alt="none" />
+
+            </div>
+            <div>
+                <img src="/img/logo/hero-title.svg" width="561" height="54" alt="none" />
+                <img src="/img/logo/item-img-main-03.png" alt="none" />
+            </div>
+            <div>
+                <img src="/img/logo/hero-title.svg" width="561" height="54" alt="none" />
+                <img src="/img/logo/item-img-main-04.png" alt="none" />
             </div>
         </div>
 
-        <!-- thumbnail bên phải -->
-        <div class="item_img_right col-md-4 p-5 position-relative">
+        <div class="col-right col-md-4 p-5 position-relative">
             <div class="row g-1">
                 <div class="col-6">
-                    <div class="ratio ratio-1x1 img-wrapper" data-bg="#ff4d4d">
-                        <img src="/img/logo/item_img_01.svg" class="img-fluid" data-index="1" />
+                    <div class="ratio ratio-1x1 img-wrapper" data-bg="#e5f9f9">
+                        <img src="/img/logo/item-img-01.svg" alt="none" data-index="1" />
                         <span>Luyện tập ngay</span>
                     </div>
                 </div>
                 <div class="col-6">
-                    <div class="ratio ratio-1x1 img-wrapper" data-bg="#007bff">
-                        <img src="/img/logo/item_img_02.svg" class="img-fluid" data-index="2" />
+                    <div class="ratio ratio-1x1 img-wrapper" data-bg="#eeeefb">
+                        <img src="/img/logo/item-img-02.svg" alt="none" data-index="2" />
                         <span>Luyện tập ngay</span>
                     </div>
                 </div>
                 <div class="col-6">
-                    <div class="ratio ratio-1x1 img-wrapper" data-bg="#28a745">
-                        <img src="/img/logo/item_img_03.svg" class="img-fluid" data-index="3" />
+                    <div class="ratio ratio-1x1 img-wrapper" data-bg="#ffecf0">
+                        <img src="/img/logo/item-img-03.svg" alt="none" data-index="3" />
                         <span>Luyện tập ngay</span>
                     </div>
                 </div>
                 <div class="col-6">
-                    <div class="ratio ratio-1x1 img-wrapper" data-bg="#ffc107">
-                        <img src="/img/logo/item_img_04.svg" class="img-fluid" data-index="4" />
+                    <div class="ratio ratio-1x1 img-wrapper" data-bg="#ffedd1">
+                        <img src="/img/logo/item-img-04.svg" alt="none" data-index="4" />
                         <span>Luyện tập ngay</span>
                     </div>
                 </div>
             </div>
 
-            <!-- thanh highlight -->
             <div class="highlight-bar" id="highlight"></div>
         </div>
     </div>
@@ -172,48 +156,37 @@
 
 <script>
     const highlight = document.getElementById("highlight");
-    const wrappers = document.querySelectorAll(".item_img_right .img-wrapper");
-    const bigImages = Array.from(document.querySelectorAll(".main-images img"));
+    const wrappers = document.querySelectorAll(".col-right .img-wrapper");
+    const bigImages = document.querySelectorAll(".main-images > div");
     const imageWrapper = document.getElementById("imageWrapper");
 
-    // reset ban đầu
     bigImages.forEach(img => img.classList.remove("active"));
     bigImages[0].classList.add("active");
 
     wrappers.forEach(wrapper => {
-        const thumb = wrapper.querySelector("img");
-        const index = parseInt(thumb.dataset.index);
-        const bgColor = wrapper.getAttribute("data-bg");
+    const thumb = wrapper.querySelector("img");
+    const index = parseInt(thumb.dataset.index);
+    const bgColor = wrapper.getAttribute("data-bg");
 
-        wrapper.addEventListener("mouseenter", function () {
-            // đổi ảnh lớn
-            bigImages.forEach(img => img.classList.remove("active"));
-            if (bigImages[index]) {
-                bigImages[index].classList.add("active");
-            }
+    wrapper.addEventListener("mouseenter", function () {
+        bigImages.forEach(div => div.classList.remove("active"));
+        if (bigImages[index]) {
+            bigImages[index].classList.add("active");
+        }
+        imageWrapper.style.backgroundColor = bgColor;
 
-            // đổi màu nền
-            imageWrapper.style.backgroundColor = bgColor;
-
-            // highlight bar
-            const top = wrapper.offsetTop + wrapper.offsetHeight + 5;
-            const left = wrapper.offsetLeft;
-
-            highlight.style.top = top + "px";
-            highlight.style.left = left + "px";
-            highlight.style.width = wrapper.offsetWidth + "px";
-        });
-
-        wrapper.addEventListener("mouseleave", function () {
-            // reset về logo
-            bigImages.forEach(img => img.classList.remove("active"));
-            bigImages[0].classList.add("active");
-
-            // reset màu nền
-            imageWrapper.style.backgroundColor = "antiquewhite";
-
-            // reset highlight
-            highlight.style.width = "0";
-        });
+        const top = wrapper.offsetTop + wrapper.offsetHeight + 5;
+        const left = wrapper.offsetLeft;
+        highlight.style.top = top + "px";
+        highlight.style.left = left + "px";
+        highlight.style.width = wrapper.offsetWidth + "px";
     });
+
+    wrapper.addEventListener("mouseleave", function () {
+        bigImages.forEach(div => div.classList.remove("active"));
+        bigImages[0].classList.add("active"); // mặc định
+        imageWrapper.style.backgroundColor = "#fff0eb";
+        highlight.style.width = "0";
+    });
+});
 </script>
