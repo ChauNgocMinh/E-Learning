@@ -4,8 +4,8 @@
 <style>
     .image-wrapper {
         background-color:#fff0eb; 
-        padding: 60px 10px 60px 10px;
-        border-radius: 10px;
+        padding: 70px 10px 70px 10px;
+        border-bottom-right-radius: 40px;
         transition: background-color 0.3s ease;
     }
 
@@ -22,7 +22,6 @@
         display: block;
     }
 
-    /* thumbnail bên phải */
     .col-right {
         position: relative;
         margin: 0 auto;
@@ -35,16 +34,6 @@
         border-radius: 8px;
     }
 
-    .home .col-right .img-wrapper img {
-        display: block;
-        width: 100%;
-        transition: transform 0.3s ease;
-    }
-
-    .home .col-right .img-wrapper:hover img {
-        transform: scale(1.05);
-    }
-
     .home .col-right .img-wrapper::after {
         content: "";
         position: absolute;
@@ -52,46 +41,23 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0,0,0,0.5);
         opacity: 0;
         transition: opacity 0.3s ease;
     }
 
-    .home .col-right .img-wrapper:hover::after {
-        opacity: 1;
-    }
-
     .home .col-right .img-wrapper span {
         position: absolute;
-        bottom: -40px;
         left: 50%;
         transform: translateX(-50%);
         color: #fff;
-        font-weight: 600;
-        background: rgba(0,0,0,0.6);
-        padding: 6px 12px;
-        border-radius: 20px;
+        border-radius: 6px;
         opacity: 0;
         transition: all 0.4s ease;
         pointer-events: none;
     }
 
     .home .col-right .img-wrapper:hover span {
-        bottom: 50%;
-        transform: translate(-50%, 50%);
         opacity: 1;
-    }
-
-    .highlight-bar {
-        position: absolute;
-        height: 6px;
-        background: rgba(0,0,0,0.6);
-        border-radius: 3px;
-        bottom: -10px;
-        left: 0;
-        width: 0;
-        z-index: -1;
-        transition: all 0.3s ease;
     }
 </style>
 
@@ -100,56 +66,58 @@
         <div class="col-md-7 col-left main-images image-wrapper" id="imageWrapper">
             <div class="active">
                 <img src="/img/logo/hero-title.svg" width="561" height="54" alt="none" />
-                <img src="/img/logo/logo-homepage-main.svg" alt="none">
+                <img src="/img/logo/logo-homepage-main.svg" width="680" height="440" alt="none">
             </div>
             <div>
-                <img src="/img/logo/hero-title.svg" width="561" height="54" alt="none" />
-                <img src="/img/logo/item-img-main-01.png" alt="none" />
+                <img src="/img/logo/speakingthumbnail.svg" width="561" height="54" alt="none" />
+                <img src="/img/logo/item-img-main-01.png" width="680" height="440" alt="none" />
             </div>
             <div>
-                <img src="/img/logo/hero-title.svg" width="561" height="54" alt="none" />
-                <img src="/img/logo/item-img-main-02.png" alt="none" />
+                <img src="/img/logo/writingthumbnail.svg" width="561" height="54" alt="none" />
+                <img src="/img/logo/item-img-main-02.png" width="680" height="440" alt="none" />
 
             </div>
             <div>
-                <img src="/img/logo/hero-title.svg" width="561" height="54" alt="none" />
-                <img src="/img/logo/item-img-main-03.png" alt="none" />
+                <img src="/img/logo/readingthumbnail.svg" width="561" height="54" alt="none" />
+                <img src="/img/logo/item-img-main-03.png" width="680" height="440" alt="none" />
             </div>
             <div>
-                <img src="/img/logo/hero-title.svg" width="561" height="54" alt="none" />
-                <img src="/img/logo/item-img-main-04.png" alt="none" />
+                <img src="/img/logo/listeningthumbnail.svg" width="561" height="54" alt="none" />
+                <img src="/img/logo/item-img-main-04.png" width="680" height="440" alt="none" />
             </div>
         </div>
 
-        <div class="col-right col-md-4 p-5 position-relative">
-            <div class="row g-1">
+        <div class="col-right col-md-4 pb-lg-5">
+            <div class="row g-4">
+                <div class="col-12 fw-bold fs-4 mx-3">
+                    Lựa chọn kỹ năng để luyện tập
+                </div>
                 <div class="col-6">
                     <div class="ratio ratio-1x1 img-wrapper" data-bg="#e5f9f9">
                         <img src="/img/logo/item-img-01.svg" alt="none" data-index="1" />
-                        <span>Luyện tập ngay</span>
+                        <span class="fw-bold d-flex align-items-center justify-content-center fs-4">Luyện tập ngay</span>
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="ratio ratio-1x1 img-wrapper" data-bg="#eeeefb">
                         <img src="/img/logo/item-img-02.svg" alt="none" data-index="2" />
-                        <span>Luyện tập ngay</span>
+                        <span class="fw-bold d-flex align-items-center justify-content-center fs-4">Luyện tập ngay</span>
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="ratio ratio-1x1 img-wrapper" data-bg="#ffecf0">
                         <img src="/img/logo/item-img-03.svg" alt="none" data-index="3" />
-                        <span>Luyện tập ngay</span>
+                        <span class="fw-bold d-flex align-items-center justify-content-center fs-4">Luyện tập ngay</span>
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="ratio ratio-1x1 img-wrapper" data-bg="#ffedd1">
                         <img src="/img/logo/item-img-04.svg" alt="none" data-index="4" />
-                        <span>Luyện tập ngay</span>
+                        <span class="fw-bold d-flex align-items-center justify-content-center fs-4">Luyện tập ngay</span>
                     </div>
                 </div>
             </div>
 
-            <div class="highlight-bar" id="highlight"></div>
         </div>
     </div>
 </div>
@@ -184,8 +152,7 @@
 
     wrapper.addEventListener("mouseleave", function () {
         bigImages.forEach(div => div.classList.remove("active"));
-        bigImages[0].classList.add("active"); // mặc định
-        imageWrapper.style.backgroundColor = "#fff0eb";
+        bigImages[0].classList.add("active");
         highlight.style.width = "0";
     });
 });

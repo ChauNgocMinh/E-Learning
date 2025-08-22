@@ -25,8 +25,52 @@ footer {
     padding-bottom: 26px;
 }
 
+@media (min-width: 640px) {
+    .container-system {
+        width: 640px
+    }
+}
+
+@media (min-width: 768px) {
+    .container-system {
+        width: 768px
+    }
+}
+
+@media (min-width: 1024px) {
+    .container-system {
+        width: 1024px
+    }
+}
+
+@media (min-width: 1280px) {
+    .container-system {
+        width: 1280px
+    }
+}
+
+@media (min-width: 1440px) {
+    .container-system {
+        width: 1440px
+    }
+}
+
+@media (min-width: 1536px) {
+    .container-system {
+        width: 1536px
+    }
+}
+
+@media (min-width: 1920px) {
+    .container-system {
+        width: 1920px
+    }
+}
+
 .container-system {
-    max-width: 1540px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 1540px;
     padding-left: 1.25rem;
     padding-right: 1.25rem;
 }
