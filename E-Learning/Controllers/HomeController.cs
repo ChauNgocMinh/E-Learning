@@ -13,5 +13,10 @@ namespace E_Learning.Controllers
         {
             return View();
         }
+
+        public IActionResult Courses()
+        {
+            return View();
+        }
     }
 }

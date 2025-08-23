@@ -112,9 +112,10 @@
                 </li>
 
                 <li class="nav-item d-flex align-items-center me-3" data-target="list-item-2">
-                    <a class="nav-link fs-7 fw-bold text-dark" href="#">
-                        <i class="bi bi-display me-1 text-primary"></i>
-                        Luyện tập 4 kỹ năng
+                    <a class="nav-link fs-7 fw-bold
+                       @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" && ViewContext.RouteData.Values["action"]?.ToString() == "Example" ? "active" : "")"
+                       asp-controller="Home" asp-action="Courses">
+                        <i class="bi bi-display me-1 text-primary"></i> Khoá học E-learning
                     </a>
                 </li>
                 <li class="nav-item d-flex align-items-center me-3">
