@@ -1,1 +1,48 @@
-﻿
+﻿.courses{
+
+}
+.tab {
+    background-color: #f4f4f4;
+}
+.tab_search input{
+    border-radius:50px;
+}
+.tab_search button {
+    border-radius: 25px;
+
+}
+
+
+.last{
+
+}
+
+.list_product {
+}
+
+    .list_product .box_item {
+        border: grey solid 1px;
+        border-radius: 10px;
+    }
+
+        .list_product .box_item > span {
+            background-color: #191f51;
+            color:white;
+        }
+        .list_product .box_item .item_content > span:first-child {
+            border-radius: 10px;
+            background-color: red;
+            color: white;
+            padding: 0 5px;
+            font-size: 14px;
+        }
+        .list_product .box_item .item_content .item_status {
+            font-size: 12px;
+        }
+.flag_hover {
+    font-size: 12px !important;
+}
+
+.box_item:hover .flag_hover {
+    display: flex !important; /* dùng flex để căn giữa */
+}
