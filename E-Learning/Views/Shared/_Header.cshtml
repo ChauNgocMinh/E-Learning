@@ -51,6 +51,24 @@
         display: flex;
     }
 
+    .navbar-nav.hidden:empty {
+        display: none !important;
+    }
+
+    .navbar-nav.hidden li:empty {
+        display: none;
+    }
+
+    #list-item-default {
+        min-height: 40px;
+    }
+
+    .active-list {
+        display: flex; /* hoặc block */
+        min-height: 40px; /* chiều cao nav trắng tối thiểu */
+        width: 100%; /* kéo ngang */
+        background: #fff; /* màu nền trắng */
+    }
 </style>
 <div class="top-bar d-flex justify-content-between align-items-center container-system">
     <img class="mx-1" height="37" width="80" src="/img/logo/Logo-power.svg" alt="icon">
@@ -83,68 +101,61 @@
     </div>
 </div>
 <nav class="navbar navbar-main p-0 navbar-expand-md" aria-label="Main navigation">
-    <div class="container-system">
-        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+    <div class="container-system w-100">
         <div class="collapse navbar-collapse">
-            <ul class="navbar-nav align-items-center mt-2">
+            <ul id="top-menu" class="navbar-nav align-items-center mt-2">
                 <li class="nav-item d-flex align-items-center me-3">
-                    <a class="nav-link fs-7 fw-bold 
-                       @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" && ViewContext.RouteData.Values["action"]?.ToString() == "Index" ? "active" : "")"
+                    <a class="nav-link fs-7 fw-bold
+         @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" && ViewContext.RouteData.Values["action"]?.ToString() == "Index" ? "active" : "")"
                        asp-controller="Home" asp-action="Index">
                         <i class="bi bi-house-door-fill me-1 text-success"></i> Trang chủ
                     </a>
                 </li>
 
-                <li class="nav-item d-flex align-items-center me-3">
-                    <div style="width: 1px; height: 1rem; background: #808890"></div>
-                </li>
+                <li class="nav-item d-flex align-items-center me-3"><div style="width:1px;height:1rem;background:#808890"></div></li>
+
                 <li class="nav-item d-flex align-items-center me-3" data-target="list-item-1">
-                    <a class="nav-link fs-7 fw-bold 
-                       @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" && ViewContext.RouteData.Values["action"]?.ToString() == "Example" ? "active" : "")"
+                    <a class="nav-link fs-7 fw-bold
+         @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" && ViewContext.RouteData.Values["action"]?.ToString() == "Example" ? "active" : "")"
                        asp-controller="Home" asp-action="Example">
                         <i class="bi bi-lightning-charge-fill me-1 text-warning"></i> Khoá học E-learning
                     </a>
                 </li>
-                <li class="nav-item d-flex align-items-center me-3">
-                    <div style="width: 1px; height: 1rem; background: #808890"></div>
-                </li>
+
+                <li class="nav-item d-flex align-items-center me-3"><div style="width:1px;height:1rem;background:#808890"></div></li>
 
                 <li class="nav-item d-flex align-items-center me-3" data-target="list-item-2">
                     <a class="nav-link fs-7 fw-bold
-                       @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" && ViewContext.RouteData.Values["action"]?.ToString() == "Example" ? "active" : "")"
+         @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" && ViewContext.RouteData.Values["action"]?.ToString() == "Courses" ? "active" : "")"
                        asp-controller="Home" asp-action="Courses">
                         <i class="bi bi-display me-1 text-primary"></i> Khoá học E-learning
                     </a>
                 </li>
-                <li class="nav-item d-flex align-items-center me-3">
-                    <div style="width: 1px; height: 1rem; background: #808890"></div>
-                </li>
+
+                <li class="nav-item d-flex align-items-center me-3"><div style="width:1px;height:1rem;background:#808890"></div></li>
 
                 <li class="nav-item d-flex align-items-center me-3" data-target="list-item-3">
                     <a class="nav-link fs-7 fw-bold text-dark" href="#">
-                        <i class="bi bi-file-earmark-text me-1 text-success"></i>
-                        Bài mẫu Writing 8.0+
+                        <i class="bi bi-file-earmark-text me-1 text-success"></i> Bài mẫu Writing 8.0+
                     </a>
                 </li>
-                <li class="nav-item d-flex align-items-center me-3">
-                    <div style="width: 1px; height: 1rem; background: #808890"></div>
-                </li>
 
-                <li class="nav-item d-flex align-items-center">
+                <li class="nav-item d-flex align-items-center me-3"><div style="width:1px;height:1rem;background:#808890"></div></li>
+
+                <li class="nav-item d-flex align-items-center" data-target="list-item-4">
                     <a class="nav-link fs-7 fw-bold text-dark" href="#">
-                        <i class="bi bi-patch-question me-1 text-success"></i>
-                        YouPass là gì?
+                        <i class="bi bi-patch-question me-1 text-success"></i> YouPass là gì?
                     </a>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
-<nav class="navbar p-0 navbar-expand-md" aria-label="Main navigation">
-    <div class="container-system">
+<nav class="navbar p-0 navbar-expand-md" aria-label="Main navigation" id="subnav">
+    <div class="container-system w-100">
         <div class="collapse navbar-collapse">
+            <ul id="list-item-empty" class="navbar-nav hidden"></ul>
+
             <ul id="list-item-1" class="navbar-nav hidden">
                 <li class="nav-item"><a class="nav-link">Sub menu 1</a></li>
             </ul>
@@ -178,28 +189,50 @@
 </div>
 
 <script>
-    document.querySelectorAll('.navbar-nav > .nav-item').forEach(item => {
-        item.addEventListener('mouseenter', function () {
-            // Ẩn hết
-            document.querySelectorAll('[id^="list-item-"]').forEach(list => {
-                list.classList.add('hidden');
-                list.classList.remove('active-list');
-            });
+      let defaultList = null;
 
-            // Hiện list tương ứng
-            const targetId = this.getAttribute('data-target');
-            if (targetId) {
-                document.getElementById(targetId).classList.remove('hidden');
-                document.getElementById(targetId).classList.add('active-list');
-            }
-        });
+    function hideAll() {
+      document.querySelectorAll('#subnav [id^="list-item-"], #subnav #list-item-empty').forEach(el => {
+        el.classList.add('hidden');
+        el.classList.remove('active-list');
+      });
+    }
+
+    function showListByTargetId(targetId) {
+      const targetEl = targetId ? document.getElementById(targetId) : null;
+      const list = targetEl || document.getElementById('list-item-empty');
+      if (list) {
+        list.classList.remove('hidden');
+        list.classList.add('active-list');
+      }
+      return list;
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      // Bật tab mặc định theo link active ở menu trên
+      const activeLink = document.querySelector('#top-menu .nav-link.active');
+      const parentItem = activeLink ? activeLink.closest('.nav-item') : null;
+      const targetId = parentItem ? parentItem.getAttribute('data-target') : null;
+
+      hideAll();
+      defaultList = showListByTargetId(targetId);
     });
 
-    // Nếu muốn ẩn khi mouseleave khỏi menu dưới
-    document.querySelectorAll('[id^="list-item-"]').forEach(list => {
-        list.addEventListener('mouseleave', function () {
-            this.classList.add('hidden');
-            this.classList.remove('active-list');
-        });
+    // CHỈ bind hover cho menu trên
+    document.querySelectorAll('#top-menu > .nav-item').forEach(item => {
+      item.addEventListener('mouseenter', function () {
+        hideAll();
+        const targetId = this.getAttribute('data-target');
+        showListByTargetId(targetId);
+      });
+    });
+
+    // Khi rời khỏi khu nav dưới → quay lại tab mặc định
+    document.getElementById('subnav').addEventListener('mouseleave', function () {
+      hideAll();
+      if (defaultList) {
+        defaultList.classList.remove('hidden');
+        defaultList.classList.add('active-list');
+      }
     });
 </script>
