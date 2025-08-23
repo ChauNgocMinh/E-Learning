@@ -50,7 +50,7 @@
         left: 50%;
         transform: translateX(-50%);
         color: #fff;
-        border-radius: 6px;
+        border-radius: 8px;
         opacity: 0;
         transition: all 0.4s ease;
         pointer-events: none;
@@ -142,10 +142,10 @@
             bigImages[index].classList.add("active");
         }
         imageWrapper.style.backgroundColor = bgColor;
+        imageWrapper.style.borderBottomRightRadius = "40px";
 
         const top = wrapper.offsetTop + wrapper.offsetHeight + 5;
         const left = wrapper.offsetLeft;
-        highlight.style.top = top + "px";
         highlight.style.left = left + "px";
         highlight.style.width = wrapper.offsetWidth + "px";
     });
@@ -153,7 +153,6 @@
     wrapper.addEventListener("mouseleave", function () {
         bigImages.forEach(div => div.classList.remove("active"));
         bigImages[0].classList.add("active");
-        highlight.style.width = "0";
     });
 });
 </script>
