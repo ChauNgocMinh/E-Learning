@@ -1,4 +1,22 @@
 ﻿<style>
+    .icon-container {
+        width: 35px;
+        height: 35px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #fc0c0c48;
+        border-radius: 50%;
+        margin-left: 8px;
+        cursor: pointer;
+    }
+
+    .icon {
+        width: 17px;
+        height: 17px;
+        color: #d10d0d;
+    }
+
     .top-bar {
         background: #f8f9fa;
         padding-top: 5px;
@@ -94,7 +112,13 @@
             else
             {
                 <li class="nav-item me-2">
-                    <a class="btn btn-login fs-8 fw-bold px-3 py-2" asp-controller="Auth" asp-action="Login">Đăng nhập</a>
+                   @*  <a class="btn btn-login fs-8 fw-bold px-3 py-2" asp-controller="Auth" asp-action="Login">Đăng nhập</a> *@
+                    <a href="javascript:void(0);"
+                        class="btn btn-login fs-8 fw-bold px-3 py-2"
+                        data-bs-toggle="modal"
+                        data-bs-target="#loginModal">
+                        Đăng nhập
+                    </a>
                 </li>
             }
         </ul>
@@ -106,8 +130,8 @@
             <ul id="top-menu" class="navbar-nav align-items-center mt-2">
                 <li class="nav-item d-flex align-items-center me-3">
                     <a class="nav-link fs-7 fw-bold
-         @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" && ViewContext.RouteData.Values["action"]?.ToString() == "Index" ? "active" : "")"
-                       asp-controller="Home" asp-action="Index">
+                        @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" && ViewContext.RouteData.Values["action"]?.ToString() == "Index" ? "active" : "")"
+                        asp-controller="Home" asp-action="Index">
                         <i class="bi bi-house-door-fill me-1 text-success"></i> Trang chủ
                     </a>
                 </li>
@@ -116,8 +140,8 @@
 
                 <li class="nav-item d-flex align-items-center me-3" data-target="list-item-1">
                     <a class="nav-link fs-7 fw-bold
-         @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" && ViewContext.RouteData.Values["action"]?.ToString() == "Example" ? "active" : "")"
-                       asp-controller="Home" asp-action="Example">
+                        @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" && ViewContext.RouteData.Values["action"]?.ToString() == "Example" ? "active" : "")"
+                        asp-controller="Home" asp-action="Example">
                         <i class="bi bi-lightning-charge-fill me-1 text-warning"></i> Khoá học E-learning
                     </a>
                 </li>
@@ -126,8 +150,8 @@
 
                 <li class="nav-item d-flex align-items-center me-3" data-target="list-item-2">
                     <a class="nav-link fs-7 fw-bold
-         @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" && ViewContext.RouteData.Values["action"]?.ToString() == "Courses" ? "active" : "")"
-                       asp-controller="Home" asp-action="Courses">
+                        @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" && ViewContext.RouteData.Values["action"]?.ToString() == "Courses" ? "active" : "")"
+                        asp-controller="Home" asp-action="Courses">
                         <i class="bi bi-display me-1 text-primary"></i> Khoá học E-learning
                     </a>
                 </li>
@@ -188,51 +212,84 @@
     </div>
 </div>
 
+<div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog h-100 d-flex align-items-center">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Đăng nhập</h5>
+                <div class="icon-container" data-bs-dismiss="modal" aria-label="Đóng">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 512 512"
+                         stroke-width="0"
+                         fill="currentColor"
+                         stroke="currentColor"
+                         class="icon">
+                        <path d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416zm0 464A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c-9.4 9.4-9.4 24.6 0 33.9l47 47-47 47c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l47-47 47 47c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-47-47 47-47c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-47 47-47-47c-9.4-9.4-24.6-9.4-33.9 0z"></path>
+                    </svg>
+                </div>
+            </div>
+            <div class="modal-body">
+                <form method="post" asp-controller="Auth" asp-action="Login">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Tên đăng nhập</label>
+                        <input type="text" class="form-control" id="username" name="Username">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Mật khẩu</label>
+                        <input type="password" class="form-control" id="password" name="Password">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Đăng nhập</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
-      let defaultList = null;
+    let defaultList = null;
 
     function hideAll() {
-      document.querySelectorAll('#subnav [id^="list-item-"], #subnav #list-item-empty').forEach(el => {
-        el.classList.add('hidden');
-        el.classList.remove('active-list');
-      });
+        document.querySelectorAll('#subnav [id^="list-item-"], #subnav #list-item-empty').forEach(el => {
+            el.classList.add('hidden');
+            el.classList.remove('active-list');
+        });
     }
 
     function showListByTargetId(targetId) {
-      const targetEl = targetId ? document.getElementById(targetId) : null;
-      const list = targetEl || document.getElementById('list-item-empty');
-      if (list) {
-        list.classList.remove('hidden');
-        list.classList.add('active-list');
-      }
-      return list;
+        const targetEl = targetId ? document.getElementById(targetId) : null;
+        const list = targetEl || document.getElementById('list-item-empty');
+        if (list) {
+            list.classList.remove('hidden');
+            list.classList.add('active-list');
+        }
+        return list;
     }
 
     window.addEventListener('DOMContentLoaded', () => {
-      // Bật tab mặc định theo link active ở menu trên
-      const activeLink = document.querySelector('#top-menu .nav-link.active');
-      const parentItem = activeLink ? activeLink.closest('.nav-item') : null;
-      const targetId = parentItem ? parentItem.getAttribute('data-target') : null;
+        // Bật tab mặc định theo link active ở menu trên
+        const activeLink = document.querySelector('#top-menu .nav-link.active');
+        const parentItem = activeLink ? activeLink.closest('.nav-item') : null;
+        const targetId = parentItem ? parentItem.getAttribute('data-target') : null;
 
-      hideAll();
-      defaultList = showListByTargetId(targetId);
+        hideAll();
+        defaultList = showListByTargetId(targetId);
     });
 
     // CHỈ bind hover cho menu trên
     document.querySelectorAll('#top-menu > .nav-item').forEach(item => {
-      item.addEventListener('mouseenter', function () {
-        hideAll();
-        const targetId = this.getAttribute('data-target');
-        showListByTargetId(targetId);
-      });
+        item.addEventListener('mouseenter', function () {
+            hideAll();
+            const targetId = this.getAttribute('data-target');
+            showListByTargetId(targetId);
+        });
     });
 
     // Khi rời khỏi khu nav dưới → quay lại tab mặc định
     document.getElementById('subnav').addEventListener('mouseleave', function () {
-      hideAll();
-      if (defaultList) {
-        defaultList.classList.remove('hidden');
-        defaultList.classList.add('active-list');
-      }
+        hideAll();
+        if (defaultList) {
+            defaultList.classList.remove('hidden');
+            defaultList.classList.add('active-list');
+        }
     });
 </script>
