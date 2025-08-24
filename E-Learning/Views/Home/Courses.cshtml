@@ -22,11 +22,88 @@
     </div>
 
     <div class="last">
-        <div class="row align-items-center">
-            <div class="col-md-2">
-                Sidebar           
+        <div class="row g-4">
+            <div class="sidebar col-md-2">
+                <ul class="list-unstyled list_skill">
+                    <li class="skill_writting">
+                        <div class="fw-bold py-1 px-2 w-100">
+                            <input type="radio" class="me-2" /><i class="bi bi-pencil-square me-2"></i>
+                            Writing
+                        </div>
+                        <ul class="list-unstyled mx-2 my-2 fw-bold">
+                            <li><input type="radio" name="task1" class="me-2" /> Task 1</li>
+                            <li><input type="radio" name="task1" class="me-2" /> Task 2</li>
+                        </ul>
+                    </li>
+
+                    <li class="skill_speaking">
+                        <div class="fw-bold py-1 px-2 w-100">
+                            <input type="radio" class="me-2" /><i class="bi bi-mic-fill me-2"></i> Speaking
+                        </div>
+                        <ul class="list-unstyled mx-2 my-2 fw-bold">
+                            <li><input type="radio" name="park1" class="me-2" /> Park 1</li>
+                            <li><input type="radio" name="park2" class="me-2" /> Park 2</li>
+                            <li><input type="radio" name="park3" class="me-2" /> Park 3</li>
+                        </ul>
+                    </li>
+
+                    <li class="skill_reading">
+                        <div class="fw-bold py-1 px-2 w-100"> 
+                            <input type="radio" class="me-2" /> <i class="bi bi-book-half me-2"></i>Reading
+                        </div>
+                        <ul class="list-unstyled mx-2 my-2 fw-bold">
+                            <li><input type="radio" class="me-2" /> Bản lẻ</li>
+                            <li><input type="radio" class="me-2" /> Full đề</li>
+                        </ul>
+                    </li>
+
+                    <li class="skill_listening">
+                        <div class="fw-bold py-1 px-2 w-100">
+                            <input type="radio" class="me-2" /><i class="bi bi-headphones me-2"></i> Listening
+                        </div>
+                        <ul class="list-unstyled mx-2 my-2 fw-bold">
+                            <li><input type="radio" class="me-2" /> Bản lẻ</li>
+                            <li><input type="radio" class="me-2" /> Full đề</li>
+                        </ul>
+                    </li>
+                </ul>
+         
+                <hr class="my-2">   <!-- Gạch ngang phân cách -->
+
+                <ul class="list-unstyled list_document">
+                    <li >
+                        <div class="fw-bold py-1 px-2 w-100">
+                            <i class="bi bi-pencil-square me-2"></i>
+                            Nguồn tài liệu
+                        </div>
+                        <ul class="list-unstyled mx-2 my-2 fw-bold">
+                            <li><input type="radio" name="task1" class="me-2 my-1" /> Task 1</li>
+                            <li><input type="radio" name="task1" class="me-2 my-1" /> Task 1</li>
+                            <li><input type="radio" name="task1" class="me-2 my-1" /> Task 1</li>
+                            <li><input type="radio" name="task1" class="me-2 my-1" /> Task 1</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <hr class="my-2">   <!-- Gạch ngang phân cách -->
+
+                <ul class="list-unstyled list_document">
+                    <li>
+                        <div class="fw-bold py-1 px-2 w-100">
+                            <i class="bi bi-mic-fill me-2"></i> Dạng đề
+                        </div>
+                        <ul class="list-unstyled mx-2 my-2 fw-bold">
+                            <li><input type="radio" name="park1" class="me-2 my-1" /> Park 1</li>
+                            <li><input type="radio" name="park1" class="me-2 my-1" /> Park 1</li>
+                            <li><input type="radio" name="park1" class="me-2 my-1" /> Park 1</li>
+                            <li><input type="radio" name="park1" class="me-2 my-1" /> Park 1</li>
+                            <li><input type="radio" name="park1" class="me-2 my-1" /> Park 1</li>
+                        </ul>
+                    </li>
+                </ul>
             </div>
-            <div class="col-md-10 ">
+
+            <div class="content col-md-10 ">
                 <div class="tab d-flex justify-content-between align-items-center mb-3">
                     <div class="tab_render_all_product px-2">
                         <div class=""><span class="fw-bold">Tất cả</span></div>
@@ -39,7 +116,7 @@
                             </span>
 
                             <!-- Ô input -->
-                            <input type="text" class="form-control ps-5 pe-5" placeholder="Nhập từ khóa..." />
+                            <input type="text" class="form-control ps-5 pe-5 " placeholder="Nhập từ khóa..." />
 
                             <!-- Nút tìm kiếm nhỏ bên phải trong input -->
                             <button class="btn btn-info btn-sm text-white position-absolute top-50 end-0 translate-middle-y me-1">
@@ -55,15 +132,10 @@
                     <div class="row g-5 mb-3">
                         <div class="col-md-6">
                             <div class="row box_item py-4 px-2 position-relative overflow-hidden">
-                                <!-- Nhãn góc -->
                                 <span class="position-absolute top-0 start-0 fw-bold rounded w-auto">Table</span>
-
-                                <!-- Hình ảnh -->
                                 <div class="col-md-3 item_img">
                                     <img src="/img/logo/item-img-03.svg" class="img-fluid" alt="Item Image" />
                                 </div>
-
-                                <!-- Nội dung -->
                                 <div class="col-md-9 item_content">
                                     <span class="">Bài chấm Demo band 5.5</span> <br />
                                     <span class="text-info fw-bold">Demo</span>
@@ -73,19 +145,19 @@
                                         the main features, and make comparisons where relevant.
                                     </div>
                                 </div>
-                                <div class="flag_hover position-absolute top-0 start-0 w-100 h-100 bg-light
+                                <div class="flag_hover position-absolute top-0 start-0 w-100 h-100 bg-success text-white
             d-flex flex-column justify-content-between d-none">
-
-                                    <!-- Nội dung nằm trên -->
-                                    <div class="">
-                                        The table below illustrates weekly consumption by age group of dairy products in a European country.
-                                        Summarise the information by selecting and reporting the main features, and make comparisons where relevant.
+                                    <div class="p-2">
+                                        <span class="bg-light w-50 px-2 text-black">Bài chấm Demo band 5.5</span>
+                                        <div class="">
+                                            The table below illustrates weekly consumption by age group of dairy products in a European country.
+                                            Summarise the information by selecting and reporting the main features, and make comparisons where relevant.
+                                        </div>
+                                        <div class="text-center">
+                                            <button class="btn btn-sm btn-light text-black p-2 w-75">Xem bài chấm Demo</button>
+                                        </div>
                                     </div>
 
-                                    <!-- Nút nằm dưới -->
-                                    <div class="text-center">
-                                        <button class="btn btn-sm btn-info text-white px-3">Xem bài chấm Demo</button>
-                                    </div>
                                 </div>
 
                             </div>
@@ -93,15 +165,10 @@
 
                         <div class="col-md-6">
                             <div class="row box_item py-4 px-2 position-relative overflow-hidden">
-                                <!-- Nhãn góc -->
                                 <span class="position-absolute top-0 start-0 fw-bold rounded w-auto">Table</span>
-
-                                <!-- Hình ảnh -->
                                 <div class="col-md-3 item_img">
                                     <img src="/img/logo/item-img-03.svg" class="img-fluid" alt="Item Image" />
                                 </div>
-
-                                <!-- Nội dung -->
                                 <div class="col-md-9 item_content">
                                     <span class="">Bài chấm Demo band 5.5</span> <br />
                                     <span class="text-info fw-bold">Demo</span>
@@ -111,18 +178,17 @@
                                         the main features, and make comparisons where relevant.
                                     </div>
                                 </div>
-                                <div class="flag_hover position-absolute top-0 start-0 w-100 h-100 bg-light
+                                <div class="flag_hover position-absolute top-0 start-0 w-100 h-100 bg-success text-white
             d-flex flex-column justify-content-between d-none">
-
-                                    <!-- Nội dung nằm trên -->
-                                    <div class="">
-                                        The table below illustrates weekly consumption by age group of dairy products in a European country.
-                                        Summarise the information by selecting and reporting the main features, and make comparisons where relevant.
-                                    </div>
-
-                                    <!-- Nút nằm dưới -->
-                                    <div class="text-center">
-                                        <button class="btn btn-sm btn-info text-white px-3">Xem bài chấm Demo</button>
+                                    <div class="p-2">
+                                        <span class="bg-light w-50 px-2 text-black">Bài chấm Demo band 5.5</span>
+                                        <div class="">
+                                            The table below illustrates weekly consumption by age group of dairy products in a European country.
+                                            Summarise the information by selecting and reporting the main features, and make comparisons where relevant.
+                                        </div>
+                                        <div class="text-center">
+                                            <button class="btn btn-sm btn-light text-black p-2 w-75">Xem bài chấm Demo</button>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -134,15 +200,10 @@
                     <div class="row g-5 mb-3">
                         <div class="col-md-6">
                             <div class="row box_item py-4 px-2 position-relative overflow-hidden">
-                                <!-- Nhãn góc -->
                                 <span class="position-absolute top-0 start-0 fw-bold rounded w-auto">Table</span>
-
-                                <!-- Hình ảnh -->
                                 <div class="col-md-3 item_img">
                                     <img src="/img/logo/item-img-03.svg" class="img-fluid" alt="Item Image" />
                                 </div>
-
-                                <!-- Nội dung -->
                                 <div class="col-md-9 item_content">
                                     <span class="">Bài chấm Demo band 5.5</span> <br />
                                     <span class="text-info fw-bold">Demo</span>
@@ -154,17 +215,16 @@
                                 </div>
                                 <div class="flag_hover position-absolute top-0 start-0 w-100 h-100 bg-light
             d-flex flex-column justify-content-between d-none">
-
-                                    <!-- Nội dung nằm trên -->
-                                    <div class="">
-                                        The table below illustrates weekly consumption by age group of dairy products in a European country.
-                                        Summarise the information by selecting and reporting the main features, and make comparisons where relevant.
+                                    <div class="p-2">
+                                        <div class="">
+                                            The table below illustrates weekly consumption by age group of dairy products in a European country.
+                                            Summarise the information by selecting and reporting the main features, and make comparisons where relevant.
+                                        </div>
+                                        <div class="text-center">
+                                            <button class="btn btn-sm text-white p-2 w-75">Xem bài chấm Demo</button>
+                                        </div>
                                     </div>
 
-                                    <!-- Nút nằm dưới -->
-                                    <div class="text-center">
-                                        <button class="btn btn-sm btn-info text-white px-3">Xem bài chấm Demo</button>
-                                    </div>
                                 </div>
 
                             </div>
@@ -172,15 +232,10 @@
 
                         <div class="col-md-6">
                             <div class="row box_item py-4 px-2 position-relative overflow-hidden">
-                                <!-- Nhãn góc -->
                                 <span class="position-absolute top-0 start-0 fw-bold rounded w-auto">Table</span>
-
-                                <!-- Hình ảnh -->
                                 <div class="col-md-3 item_img">
                                     <img src="/img/logo/item-img-03.svg" class="img-fluid" alt="Item Image" />
                                 </div>
-
-                                <!-- Nội dung -->
                                 <div class="col-md-9 item_content">
                                     <span class="">Bài chấm Demo band 5.5</span> <br />
                                     <span class="text-info fw-bold">Demo</span>
@@ -192,17 +247,16 @@
                                 </div>
                                 <div class="flag_hover position-absolute top-0 start-0 w-100 h-100 bg-light
             d-flex flex-column justify-content-between d-none">
-
-                                    <!-- Nội dung nằm trên -->
-                                    <div class="">
-                                        The table below illustrates weekly consumption by age group of dairy products in a European country.
-                                        Summarise the information by selecting and reporting the main features, and make comparisons where relevant.
+                                    <div class="p-2">
+                                        <div class="">
+                                            The table below illustrates weekly consumption by age group of dairy products in a European country.
+                                            Summarise the information by selecting and reporting the main features, and make comparisons where relevant.
+                                        </div>
+                                        <div class="text-center">
+                                            <button class="btn btn-sm text-white p-2 w-75">Xem bài chấm Demo</button>
+                                        </div>
                                     </div>
 
-                                    <!-- Nút nằm dưới -->
-                                    <div class="text-center">
-                                        <button class="btn btn-sm btn-info text-white px-3">Xem bài chấm Demo</button>
-                                    </div>
                                 </div>
 
                             </div>
@@ -213,15 +267,10 @@
                     <div class="row g-5 mb-3">
                         <div class="col-md-6">
                             <div class="row box_item py-4 px-2 position-relative overflow-hidden">
-                                <!-- Nhãn góc -->
                                 <span class="position-absolute top-0 start-0 fw-bold rounded w-auto">Table</span>
-
-                                <!-- Hình ảnh -->
                                 <div class="col-md-3 item_img">
                                     <img src="/img/logo/item-img-03.svg" class="img-fluid" alt="Item Image" />
                                 </div>
-
-                                <!-- Nội dung -->
                                 <div class="col-md-9 item_content">
                                     <span class="">Bài chấm Demo band 5.5</span> <br />
                                     <span class="text-info fw-bold">Demo</span>
@@ -233,17 +282,16 @@
                                 </div>
                                 <div class="flag_hover position-absolute top-0 start-0 w-100 h-100 bg-light
             d-flex flex-column justify-content-between d-none">
-
-                                    <!-- Nội dung nằm trên -->
-                                    <div class="">
-                                        The table below illustrates weekly consumption by age group of dairy products in a European country.
-                                        Summarise the information by selecting and reporting the main features, and make comparisons where relevant.
+                                    <div class="p-2">
+                                        <div class="">
+                                            The table below illustrates weekly consumption by age group of dairy products in a European country.
+                                            Summarise the information by selecting and reporting the main features, and make comparisons where relevant.
+                                        </div>
+                                        <div class="text-center">
+                                            <button class="btn btn-sm text-white p-2 w-75">Xem bài chấm Demo</button>
+                                        </div>
                                     </div>
 
-                                    <!-- Nút nằm dưới -->
-                                    <div class="text-center">
-                                        <button class="btn btn-sm btn-info text-white px-3">Xem bài chấm Demo</button>
-                                    </div>
                                 </div>
 
                             </div>
@@ -251,15 +299,10 @@
 
                         <div class="col-md-6">
                             <div class="row box_item py-4 px-2 position-relative overflow-hidden">
-                                <!-- Nhãn góc -->
                                 <span class="position-absolute top-0 start-0 fw-bold rounded w-auto">Table</span>
-
-                                <!-- Hình ảnh -->
                                 <div class="col-md-3 item_img">
                                     <img src="/img/logo/item-img-03.svg" class="img-fluid" alt="Item Image" />
                                 </div>
-
-                                <!-- Nội dung -->
                                 <div class="col-md-9 item_content">
                                     <span class="">Bài chấm Demo band 5.5</span> <br />
                                     <span class="text-info fw-bold">Demo</span>
@@ -271,26 +314,193 @@
                                 </div>
                                 <div class="flag_hover position-absolute top-0 start-0 w-100 h-100 bg-light
             d-flex flex-column justify-content-between d-none">
-
-                                    <!-- Nội dung nằm trên -->
-                                    <div class="">
-                                        The table below illustrates weekly consumption by age group of dairy products in a European country.
-                                        Summarise the information by selecting and reporting the main features, and make comparisons where relevant.
+                                    <div class="p-2">
+                                        <div class="">
+                                            The table below illustrates weekly consumption by age group of dairy products in a European country.
+                                            Summarise the information by selecting and reporting the main features, and make comparisons where relevant.
+                                        </div>
+                                        <div class="text-center">
+                                            <button class="btn btn-sm text-white p-2 w-75">Xem bài chấm Demo</button>
+                                        </div>
                                     </div>
 
-                                    <!-- Nút nằm dưới -->
-                                    <div class="text-center">
-                                        <button class="btn btn-sm btn-info text-white px-3">Xem bài chấm Demo</button>
-                                    </div>
                                 </div>
 
                             </div>
                         </div>
 
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+    .courses {
+    }
+
+    .tab {
+        background-color: #f4f4f4;
+    }
+
+    .tab_search input {
+        border-radius: 50px;
+    }
+
+    .tab_search button {
+        border-radius: 25px;
+    }
+
+
+
+
+    /*     CSS SIDEBAR
+     */
+
+    .sidebar {
+    }
+
+        .sidebar .list_skill {
+        }
+
+
+            .sidebar .list_skill li > div {
+                font-size: 22px;
+            }
+
+            .sidebar .list_skill > li {
+                font-size: 18px;
+                border-left: 1px solid grey;
+                border-bottom: 1px solid grey;
+                border-radius: 20px;
+                margin: 5px;
+            }
+
+            .sidebar .list_skill li div {
+                border-radius: 20px;
+                border: 1px solid black;
+            }
+
+            .sidebar .list_skill li:first-child div {
+                background-color: red;
+            }
+
+            .sidebar .list_skill li div:hover {
+                background-color: aquamarine;
+            }
+
+        /* Style cho list_document */
+        .sidebar .list_document li > div {
+            font-size: 22px; /* Tiêu đề to */
+            font-weight: bold;
+        }
+
+        .sidebar .list_document > li {
+            font-size: 18px; /* Nội dung nhỏ hơn */
+            margin: 5px 0;
+        }
+
+        /* Radio custom vuông tick */
+        .sidebar .list_document input[type="radio"] {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            width: 25px;
+            height: 25px;
+            border: 2px solid #333;
+            border-radius: 6px;
+            margin-right: 8px;
+            cursor: pointer;
+            position: relative;
+            vertical-align: middle; /* canh giữa với chữ */
+        }
+
+            .sidebar .list_document input[type="radio"]:checked {
+                background-color: #0d6efd;
+                border-color: #0d6efd;
+            }
+
+                .sidebar .list_document input[type="radio"]:checked::after {
+                    content: "✔";
+                    font-size: 14px;
+                    color: #fff;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -55%);
+                }
+
+
+
+    /*     CSS CONTENT
+         */
+
+    .content{
+    }
+
+    .list_product .box_item {
+        border-radius: 10px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        transition: all 0.3s ease; 
+    }
+
+        .list_product .box_item > span {
+            background-color: #191f51;
+            color: white;
+            padding: 2px 6px;
+            font-size: 13px;
+            border-radius: 5px;
+        }
+
+        .list_product .box_item .item_content > span:first-child {
+            border-radius: 10px;
+            background-color: red;
+            color: white;
+            padding: 0 5px;
+            font-size: 14px;
+        }
+
+        .list_product .box_item .item_content .item_status {
+            font-size: 12px;
+        }
+
+    .list_product .row:first-child .box_item {
+        border: 3px solid chocolate;
+        box-shadow: none;
+    }
+
+    /* Hover overlay */
+    .flag_hover {
+        font-size: 12px !important;
+        display: none;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: stretch;
+    }
+
+        .flag_hover span {
+            border-radius: 10px;
+        }
+
+        .flag_hover button {
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 25px;
+        }
+
+    .box_item:hover .flag_hover {
+        display: flex !important;
+    }
+
+        .box_item:hover .flag_hover button {
+            background-color: chocolate;
+            color: #fff;
+        }
+
+    .list_product .row:not(:first-child) .box_item:hover {
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    
+</style>

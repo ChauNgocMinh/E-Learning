@@ -1,4 +1,4 @@
-﻿.courses{
+﻿/*.courses{
 
 }
 .tab {
@@ -44,5 +44,5 @@
 }
 
 .box_item:hover .flag_hover {
-    display: flex !important; /* dùng flex để căn giữa */
-}
+    display: flex !important;*/ /* dùng flex để căn giữa */
+/*}*/
