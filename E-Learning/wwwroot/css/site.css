@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap');
+﻿@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap');
 
 * {
     font-size: 16px;
@@ -96,4 +96,36 @@ footer {
 
 .ml-3{
     margin-left: 1rem;
+}
+
+/* Login button */
+.btn-login {
+    background-color: #e65100;
+    color: #fff;
+}
+
+.btn-login:hover {
+    background-color: #ff8a50;
+}
+
+/* Register button */
+.btn-register {
+    background-color: #00897b !important;
+    color: #fff;
+}
+
+.btn-register:hover {
+    background-color: #26a69a !important;
+}
+
+.modal-body a {
+    color: #e65100 !important; /* màu cam giống button login */
+    text-decoration: none; /* bỏ gạch chân mặc định */
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.modal-body a:hover {
+    color: #ff8a50 !important; /* sáng hơn khi hover */
+    text-decoration: underline;
 }

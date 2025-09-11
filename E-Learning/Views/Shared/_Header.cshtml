@@ -11,6 +11,11 @@
         cursor: pointer;
     }
 
+    .icon-container:hover {
+        background-color: #fc0c0c80;
+        transition: background-color 0.3s ease;
+    }
+
     .icon {
         width: 17px;
         height: 17px;
@@ -18,7 +23,6 @@
     }
 
     .top-bar {
-        background: #f8f9fa;
         padding-top: 5px;
         padding-bottom: 5px;
     }
@@ -212,34 +216,75 @@
     </div>
 </div>
 
+<!-- Modal Đăng nhập -->
 <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog h-100 d-flex align-items-center">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Đăng nhập</h5>
                 <div class="icon-container" data-bs-dismiss="modal" aria-label="Đóng">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                         viewBox="0 0 512 512"
-                         stroke-width="0"
-                         fill="currentColor"
-                         stroke="currentColor"
-                         class="icon">
-                        <path d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416zm0 464A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c-9.4 9.4-9.4 24.6 0 33.9l47 47-47 47c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l47-47 47 47c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-47-47 47-47c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-47 47-47-47c-9.4-9.4-24.6-9.4-33.9 0z"></path>
-                    </svg>
+                    ✕
                 </div>
             </div>
             <div class="modal-body">
-                <form method="post" asp-controller="Auth" asp-action="Login">
-                    <div class="mb-3">
+                <form method="post" asp-controller="Auth" asp-action="Login" class="text-center">
+                    <div class="mb-3 text-start">
                         <label for="username" class="form-label">Tên đăng nhập</label>
                         <input type="text" class="form-control" id="username" name="Username">
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-3 text-start">
                         <label for="password" class="form-label">Mật khẩu</label>
                         <input type="password" class="form-control" id="password" name="Password">
                     </div>
-                    <button type="submit" class="btn btn-primary">Đăng nhập</button>
+                    <!-- canh giữa nút -->
+                    <button type="submit" class="btn btn-login w-50">Đăng nhập</button>
                 </form>
+
+                <p class="mt-3 text-center">
+                    Chưa có tài khoản?
+                    <a href="javascript:void(0);" id="openRegister">
+                        Đăng ký ngay
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Đăng ký -->
+<div class="modal fade" id="registerModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <!-- canh giữa -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Đăng ký</h5>
+                <div class="icon-container" data-bs-dismiss="modal" aria-label="Đóng">
+                    ✕
+                </div>
+            </div>
+            <div class="modal-body">
+                <form method="post" asp-controller="Auth" asp-action="Register" class="text-center">
+                    <div class="mb-3 text-start">
+                        <label for="reg-username" class="form-label">Tên đăng nhập</label>
+                        <input type="text" class="form-control" id="reg-username" name="Username">
+                    </div>
+                    <div class="mb-3 text-start">
+                        <label for="reg-email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="reg-email" name="Email">
+                    </div>
+                    <div class="mb-3 text-start">
+                        <label for="reg-password" class="form-label">Mật khẩu</label>
+                        <input type="password" class="form-control" id="reg-password" name="Password">
+                    </div>
+                    <button type="submit" class="btn btn-register w-50">Đăng ký</button>
+                </form>
+
+                <p class="mt-3 text-center">
+                    Đã có tài khoản?
+                    <a href="javascript:void(0);" id="openLogin">
+                        Đăng nhập ngay
+                    </a>
+                </p>
             </div>
         </div>
     </div>
@@ -266,16 +311,12 @@
     }
 
     window.addEventListener('DOMContentLoaded', () => {
-        // Bật tab mặc định theo link active ở menu trên
         const activeLink = document.querySelector('#top-menu .nav-link.active');
         const parentItem = activeLink ? activeLink.closest('.nav-item') : null;
         const targetId = parentItem ? parentItem.getAttribute('data-target') : null;
-
         hideAll();
         defaultList = showListByTargetId(targetId);
     });
-
-    // CHỈ bind hover cho menu trên
     document.querySelectorAll('#top-menu > .nav-item').forEach(item => {
         item.addEventListener('mouseenter', function () {
             hideAll();
@@ -283,13 +324,27 @@
             showListByTargetId(targetId);
         });
     });
-
-    // Khi rời khỏi khu nav dưới → quay lại tab mặc định
+    
     document.getElementById('subnav').addEventListener('mouseleave', function () {
         hideAll();
         if (defaultList) {
             defaultList.classList.remove('hidden');
             defaultList.classList.add('active-list');
         }
+    });
+    document.getElementById("openRegister").addEventListener("click", function () {
+        var loginModal = bootstrap.Modal.getInstance(document.getElementById("loginModal"));
+        loginModal.hide();
+
+        var registerModal = new bootstrap.Modal(document.getElementById("registerModal"));
+        registerModal.show();
+    });
+
+    document.getElementById("openLogin").addEventListener("click", function () {
+        var registerModal = bootstrap.Modal.getInstance(document.getElementById("registerModal"));
+        registerModal.hide();
+
+        var loginModal = new bootstrap.Modal(document.getElementById("loginModal"));
+        loginModal.show();
     });
 </script>
