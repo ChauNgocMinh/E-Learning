@@ -6803,7 +6803,7 @@ textarea.form-control-lg {
 }
 
 .border-bottom {
-  border-bottom: 1px solid #dee2e6 !important;
+    border-bottom: 1px solid #03201f !important;
 }
 
 .border-bottom-0 {
@@ -7769,8 +7769,8 @@ textarea.form-control-lg {
 }
 
 .bg-light {
-  --bs-bg-opacity: 1;
-  background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important;
+    --bs-bg-opacity: 1;
+    background-color: #e6f0ef !important;
 }
 
 .bg-dark {

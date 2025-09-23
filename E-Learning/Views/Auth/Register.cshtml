@@ -1,7 +1,7 @@
 ﻿@using E_Learning.ViewModel
 @model RegisterViewModel
 
-<h2>Register</h2>
+@* <h2>Register</h2>
 <form asp-action="Register" method="post">
     <div>
         <label asp-for="FullName"></label>
@@ -29,4 +29,65 @@
         <span asp-validation-for="ConfirmPassword"></span>
     </div>
     <button type="submit">Register</button>
-</form>
+</form> *@
+
+
+<div class="container-fluid py-5">
+    <div class="container py-5">
+        <div class="text-center wow fadeIn" data-wow-delay="0.1s">
+            <h1 class="mb-5">
+                Create Account <span class="text-uppercase text-primary bg-light px-2">
+                    Register
+                </span>
+            </h1>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-5">
+                <div class="wow fadeIn" data-wow-delay="0.3s">
+                    <form>
+                        <div class="row g-3">
+                            <!-- Full Name -->
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="fullname" placeholder="Full Name">
+                                    <label for="fullname">Họ và tên</label>
+                                </div>
+                            </div>
+                            <!-- Email -->
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <input type="email" class="form-control" id="email" placeholder="Email">
+                                    <label for="email">Email</label>
+                                </div>
+                            </div>
+                            <!-- Password -->
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <input type="password" class="form-control" id="password" placeholder="Password">
+                                    <label for="password">Mật khẩu</label>
+                                </div>
+                            </div>
+                            <!-- Confirm Password -->
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password">
+                                    <label for="confirmPassword">Xác nhận mật khẩu</label>
+                                </div>
+                            </div>
+                            <!-- Register Button -->
+                            <div class="col-12">
+                                <button class="btn btn-primary w-100 py-3" type="submit">Đăng ký</button>
+                            </div>
+                            <!-- Extra Links -->
+                            <div class="col-12 text-center">
+                                <small>
+                                    Đã có tài khoản? <a asp-action="Login" asp-controller="Auth">Đăng nhập ngay</a>
+                                </small>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

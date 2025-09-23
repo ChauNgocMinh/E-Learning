@@ -77,6 +77,11 @@
             color: var(--bs-primary)
         }
 
+    .navbar .navbar-nav .btn-login:hover {
+        color: var(--bs-white) !important;
+        background: var(--bs-primary);
+    }
+
     .navbar .dropdown-toggle::after {
         border: none;
         content: "\f107";
@@ -123,7 +128,7 @@
 .hero-header {
     margin-top: -100px;
     padding-top: 150px;
-    background: url(../img/hero-bg.jpg) top center no-repeat;
+    background: url(/img/img-core/hero-bg.jpg) top center no-repeat;
     background-size: cover;
 }
 
@@ -187,7 +192,7 @@
         height: 100%;
         top: 0;
         left: 0;
-        background: url(../img/bg-about-img.png) top left no-repeat;
+        background: url(./img/img-core/bg-about-img.png) top left no-repeat;
         background-size: contain;
     }
 
@@ -385,7 +390,7 @@
 
 /*** Newsletter ***/
 .newsletter {
-    background: url(../img/hero-bg.jpg) bottom right no-repeat;
+    background: url(./img/img-core/hero-bg.jpg) bottom right no-repeat;
     background-size: cover;
 }
 
