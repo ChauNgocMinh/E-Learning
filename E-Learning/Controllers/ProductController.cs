@@ -1,18 +1,12 @@
-﻿using E_Learning.Cqrs.Commands.ProductsCommands;
+﻿using E_Learning.Controllers.SystemControllers;
+using E_Learning.Cqrs.Commands.ProductsCommands;
 using E_Learning.Cqrs.Queries.ProductsQueries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace E_Learning.Controllers;
-public class ProductController : Controller
+public class ProductController(IMediator _mediator) : BaseController
 {
-    private readonly IMediator _mediator;
-
-    public ProductController(IMediator mediator)
-    {
-        _mediator = mediator;
-    }
-
     public async Task<IActionResult> Index()
     {
         var products = await _mediator.Send(new GetAllProductsQuery());

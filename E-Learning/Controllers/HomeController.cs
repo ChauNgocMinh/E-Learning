@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using E_Learning.Controllers.SystemControllers;
+using Microsoft.AspNetCore.Mvc;
 
 namespace E_Learning.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         public IActionResult Index()
         {

@@ -7,9 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Infrastructure\Repositories\**" />
+    <Content Remove="Infrastructure\Repositories\**" />
+    <EmbeddedResource Remove="Infrastructure\Repositories\**" />
+    <None Remove="Infrastructure\Repositories\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Controllers\ApiController\" />
     <Folder Include="Infrastructure\Identity\" />
-    <Folder Include="Infrastructure\Repositories\" />
   </ItemGroup>
 
   <ItemGroup>
