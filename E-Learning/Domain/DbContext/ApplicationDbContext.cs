@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using E_Learning.Models.Entities;
-using E_Learning.Models;
+using E_Learning.Domain.Entities;
+using E_Learning.Domain.Comon;
 
 namespace E_Learning.Infrastructure.Persistence;
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
@@ -13,6 +13,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
         _httpContextAccessor = httpContextAccessor;
     }
 
+    #region override func SaveChanges ef core
     public override int SaveChanges()
     {
         var entries = ChangeTracker.Entries<BaseEntity>();
@@ -38,6 +39,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
         }
         return base.SaveChanges();
     }
+    #endregion
+
     public DbSet<Product> Products { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

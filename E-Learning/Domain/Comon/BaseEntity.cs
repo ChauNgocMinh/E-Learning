@@ -1,4 +1,4 @@
-﻿namespace E_Learning.Models
+﻿namespace E_Learning.Domain.Comon
 {
     public abstract class BaseEntity
     {

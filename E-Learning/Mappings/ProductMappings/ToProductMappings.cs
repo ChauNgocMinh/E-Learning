@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using E_Learning.Cqrs.Commands.ProductsCommands;
-using E_Learning.Models.Entities;
+using E_Learning.Domain.Entities;
 
 namespace E_Learning.Mappings.ProductMappings;
 public static class ToProductMappings

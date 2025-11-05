@@ -1,4 +1,4 @@
-﻿using E_Learning.Models.Entities;
+﻿using E_Learning.Domain.Entities;
 using MediatR;
 using System;
 namespace E_Learning.Cqrs.Queries.ProductsQueries;

@@ -1,4 +1,6 @@
-﻿namespace E_Learning.Models.Entities
+﻿using E_Learning.Domain.Comon;
+
+namespace E_Learning.Domain.Entities
 {
     public class Product : BaseEntity
     {

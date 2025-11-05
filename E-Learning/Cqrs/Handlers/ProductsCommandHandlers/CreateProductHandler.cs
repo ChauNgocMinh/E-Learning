@@ -15,7 +15,7 @@ public class CreateProductHandler : IRequestHandler<CreateProductCommand, Guid>
 
     public async Task<Guid> Handle(CreateProductCommand request, CancellationToken cancellationToken)
     {
-        var product = new Models.Entities.Product
+        var product = new Domain.Entities.Product
         {
             Id = Guid.NewGuid(),
             Name = request.Name,

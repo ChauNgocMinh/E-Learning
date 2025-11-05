@@ -1,4 +1,4 @@
-﻿using E_Learning.Models.Entities;
+﻿using E_Learning.Domain.Entities;
 using E_Learning.ViewModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
