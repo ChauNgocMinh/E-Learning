@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 
-namespace E_Learning.Models.Entities;
+namespace E_Learning.Domain.Entities;
 public class ApplicationUser : IdentityUser<Guid>
 {
     [MaxLength(100)]

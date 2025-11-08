@@ -1,5 +1,5 @@
-﻿using E_Learning.Infrastructure.Persistence;
-using E_Learning.Models.Entities;
+﻿using E_Learning.Domain.Entities;
+using E_Learning.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Identity;
 
 namespace E_Learning.Extensions
