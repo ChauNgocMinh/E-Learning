@@ -4,18 +4,11 @@ using MediatR;
 
 namespace E_Learning.Cqrs.Handlers.ProductsCommandHandlers;
 
-public class CreateProductHandler : IRequestHandler<CreateProductCommand, Guid>
+public class CreateProductHandler(ApplicationDbContext _context) : IRequestHandler<CreateProductCommand, Guid>
 {
-    private readonly ApplicationDbContext _context;
-
-    public CreateProductHandler(ApplicationDbContext context)
-    {
-        _context = context;
-    }
-
     public async Task<Guid> Handle(CreateProductCommand request, CancellationToken cancellationToken)
     {
-        var product = new Models.Entities.Product
+        var product = new Domain.Entities.Product
         {
             Id = Guid.NewGuid(),
             Name = request.Name,
