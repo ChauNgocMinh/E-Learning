@@ -9,7 +9,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IHttpContextAccessor httpContextAccessor) : base(options) 
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IHttpContextAccessor httpContextAccessor) : base(options)
     {
         _httpContextAccessor = httpContextAccessor;
     }
@@ -46,6 +46,10 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
     public DbSet<Product> Products { get; set; }
     public DbSet<Exercise> Exercises { get; set; }
     public DbSet<ExerciseListening> ExerciseListenings { get; set; }
+    public DbSet<ExercisesReading> ExercisesReadings { get; set; }
+    public DbSet<ExerciseSubmission> ExerciseSubmissions { get; set; }
+    public DbSet<ExerciseSubmissionDetail> ExerciseSubmissionDetails { get; set; }
+
     #endregion
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -100,6 +104,10 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
                   .WithOne(el => el.Exercise)
                   .HasForeignKey(el => el.ExerciseId)
                   .OnDelete(DeleteBehavior.Cascade);
+            entity.HasMany(e => e.ExerciseReadings)
+                 .WithOne(el => el.Exercise)
+                 .HasForeignKey(el => el.ExerciseId)
+                 .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<ExerciseListening>(entity =>
@@ -111,5 +119,34 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
                   .WithMany(e => e.ExerciseListenings)
                   .HasForeignKey(e => e.ExerciseId);
         });
+        modelBuilder.Entity<ExercisesReading>(entity =>
+        {
+            entity.ToTable("ExercisesReading");
+            entity.HasKey(e => e.Id);
+            entity.HasOne(e => e.Exercise)
+                  .WithMany(e => e.ExerciseReadings)
+                  .HasForeignKey(e => e.ExerciseId);
+        });
+        modelBuilder.Entity<ExerciseSubmission>(entity =>
+        {
+            entity.ToTable("ExerciseSubmission");
+            entity.HasKey(e => e.Id);
+            entity.HasOne<Exercise>()
+                  .WithMany()
+                  .HasForeignKey(e => e.ExerciseId)
+                  .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<ExerciseSubmissionDetail>(entity =>
+        {
+            entity.ToTable("ExerciseSubmissionDetail");
+            entity.HasKey(e => e.Id);
+            entity.HasOne<ExerciseSubmission>()
+                  .WithMany(s => s.Details)
+                  .HasForeignKey(e => e.SubmissionId)
+                  .OnDelete(DeleteBehavior.Cascade);
+        });
+
+
     }
 }

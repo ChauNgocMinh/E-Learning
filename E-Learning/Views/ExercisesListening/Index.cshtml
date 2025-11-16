@@ -1,0 +1,210 @@
+﻿@model E_Learning.Domain.Entities.Exercise
+
+@if (Model != null)
+{
+    <div class="exercise-container">
+
+        <h2 class="exercise-title">@Model.Title</h2>
+
+        <p class="exercise-description">
+            <strong>Mô tả:</strong> @Model.Description
+        </p>
+
+        <form method="post" action="/ExercisesListening/Submit">
+            <input type="hidden" name="exerciseId" value="@Model.Id" />
+
+            <div class="questions-container">
+                @foreach (var question in Model.ExerciseListenings!.OrderBy(q => q.OrderNumber))
+                {
+                    <div class="question-box">
+                        <h5 class="question-title">
+                            Câu @question.OrderNumber: @question.QuestionText
+                        </h5>
+
+                        <div class="options">
+                            <label class="option-item">
+                                <input type="radio" name="answers[@question.Id]" value="A" />
+                                <span class="option-label">A.</span> @question.OptionA
+                            </label>
+
+                            <label class="option-item">
+                                <input type="radio" name="answers[@question.Id]" value="B" />
+                                <span class="option-label">B.</span> @question.OptionB
+                            </label>
+
+                            <label class="option-item">
+                                <input type="radio" name="answers[@question.Id]" value="C" />
+                                <span class="option-label">C.</span> @question.OptionC
+                            </label>
+
+                            <label class="option-item">
+                                <input type="radio" name="answers[@question.Id]" value="D" />
+                                <span class="option-label">D.</span> @question.OptionD
+                            </label>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="audio-container">
+                @if (!string.IsNullOrEmpty(Model.AudioUrl))
+                {
+                    <audio id="audio-player" controls>
+                        <source src="@Model.AudioUrl" type="audio/mpeg" />
+                        Trình duyệt của bạn không hỗ trợ audio.
+                    </audio>
+
+                    <div class="audio-status">
+                        <span id="audio-time">00:00 / 00:00</span>
+                    </div>
+                }
+            </div>
+
+            <div class="submit-container">
+                <button type="submit" class="btn-submit">Nộp bài</button>
+            </div>
+        </form>
+    </div>
+
+    <style>
+        .exercise-container {
+            width: 60%;
+            margin: 30px auto;
+            padding: 35px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+            font-family: "Segoe UI", sans-serif;
+        }
+
+        .exercise-title {
+            text-align: center;
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .exercise-description {
+            font-size: 16px;
+            background: #f9f9f9;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
+            margin-bottom: 30px;
+        }
+
+        .question-box {
+            background: #fdfdfd;
+            padding: 18px 20px;
+            margin-bottom: 25px;
+            border-radius: 10px;
+            border-left: 5px solid #007bff;
+            transition: 0.2s;
+        }
+
+            .question-box:hover {
+                background: #f3f8ff;
+            }
+
+        .question-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .options {
+            margin-left: 10px;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            background: #fff;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+
+            .option-item:hover {
+                border-color: #007bff;
+                background: #eef6ff;
+            }
+
+            .option-item input {
+                margin-right: 10px;
+                transform: scale(1.2);
+            }
+
+        .option-label {
+            font-weight: 600;
+            margin-right: 6px;
+            color: #007bff;
+        }
+
+        .audio-container {
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        .audio-status {
+            margin-top: 10px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .submit-container {
+            margin-top: 35px;
+            text-align: center;
+        }
+
+        .btn-submit {
+            background: #007bff;
+            color: white;
+            padding: 12px 28px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+            .btn-submit:hover {
+                background: #0056b3;
+            }
+    </style>
+
+    <script>
+        const audioPlayer = document.getElementById("audio-player");
+        const audioTimeDisplay = document.getElementById("audio-time");
+
+        if (audioPlayer) {
+            audioPlayer.addEventListener("timeupdate", function () {
+                const currentTime = audioPlayer.currentTime;
+                const duration = audioPlayer.duration;
+
+                audioTimeDisplay.textContent =
+                    `${formatTime(currentTime)} / ${formatTime(duration)}`;
+            });
+        }
+
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return "00:00";
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = Math.floor(seconds % 60);
+            return `${padZero(minutes)}:${padZero(remainingSeconds)}`;
+        }
+
+        function padZero(number) {
+            return number < 10 ? "0" + number : number;
+        }
+    </script>
+}
+else
+{
+    <p>Lỗi: Không có dữ liệu bài tập.</p>
+}

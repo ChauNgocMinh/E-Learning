@@ -1,0 +1,171 @@
+﻿@model E_Learning.Domain.Entities.ExerciseSubmission
+
+@{
+    ViewData["Title"] = "Kết quả bài nghe";
+
+    int total = Model.Details.Count;
+    int correct = Model.TotalScore;
+    double percent = ((double)correct / total) * 100.0;
+
+    string themeColor = "#007bff";    
+    string wrongBg = "#ffe6e6";       
+    string correctBg = "#e6ffe6";    
+}
+
+<style>
+    .result-container {
+        max-width: 900px;
+        margin: 30px auto;
+        padding: 25px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 0 12px rgba(0,0,0,0.12);
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .header-title {
+        text-align: center;
+        font-size: 30px;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    .score-box {
+        text-align: center;
+        background: linear-gradient(135deg, #007bff, #3399ff);
+        padding: 15px;
+        color: white;
+        border-radius: 10px;
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 25px;
+        box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+    }
+
+    .percent-box {
+        text-align: center;
+        font-size: 18px;
+        margin-bottom: 35px;
+        color: #333;
+    }
+
+    .question-box {
+        padding: 20px;
+        margin-bottom: 25px;
+        border-radius: 10px;
+        border-left: 6px solid @themeColor;
+    }
+
+    .question-title {
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    .options-container {
+        margin-left: 10px;
+        margin-top: 10px;
+    }
+
+    .option-row {
+        padding: 8px 12px;
+        border-radius: 6px;
+        margin-bottom: 7px;
+        border: 1px solid #ddd;
+        font-size: 16px;
+    }
+
+    .user-choice {
+        font-weight: bold;
+        color: #db4437;
+    }
+
+    .right-choice {
+        font-weight: bold;
+        color: #0f9d58;
+    }
+
+    .correct-bg {
+        background: @correctBg;
+    }
+
+    .wrong-bg {
+        background: @wrongBg;
+    }
+
+    .icon {
+        font-size: 20px;
+        margin-right: 8px;
+    }
+</style>
+
+
+<div class="result-container">
+
+    <div class="header-title">Kết quả bài nghe</div>
+
+    <div class="score-box">
+        Điểm: @Model.TotalScore / @Model.Details.Count
+    </div>
+
+    <div class="percent-box">
+        <strong>Tỷ lệ đúng:</strong> @percent.ToString("0.0")%
+    </div>
+
+    @foreach (var d in Model.Details.OrderBy(x => x.ExerciseListening.OrderNumber))
+    {
+        var isCorrect = d.IsCorrect;
+        var bgClass = isCorrect ? "correct-bg" : "wrong-bg";
+
+        <div class="question-box @bgClass">
+
+            <div class="question-title">
+                Câu @d.ExerciseListening.OrderNumber: @d.ExerciseListening.QuestionText
+            </div>
+
+            <div class="options-container">
+
+                @{
+                    var options = new Dictionary<string, string>
+                        {
+                        { "A", d.ExerciseListening.OptionA },
+                        { "B", d.ExerciseListening.OptionB },
+                        { "C", d.ExerciseListening.OptionC },
+                        { "D", d.ExerciseListening.OptionD }
+                        };
+
+                    string userAnswer = d.SelectedOption.ToString();
+                    string correctAnswer = d.ExerciseListening.CorrectOption.ToString();
+                }
+
+                @foreach (var opt in options)
+                {
+                    var rowClass = "option-row";
+
+                    if (opt.Key == userAnswer)
+                        rowClass += " user-choice";
+
+                    if (opt.Key == correctAnswer)
+                        rowClass += " right-choice";
+
+                    <div class="@rowClass">
+                        <strong>@opt.Key.</strong> @opt.Value
+                    </div>
+                }
+            </div>
+
+            <div style="margin-top:10px;">
+                @if (isCorrect)
+                {
+                    <span class="right-choice"><span class="icon">✔</span>Bạn đã trả lời đúng!</span>
+                }
+                else
+                {
+                    <span class="user-choice"><span class="icon">✘</span>Bạn trả lời sai!</span>
+                }
+            </div>
+
+        </div>
+    }
+</div>
