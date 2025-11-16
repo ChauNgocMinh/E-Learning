@@ -1,0 +1,180 @@
+﻿@using E_Learning.ViewModel
+@model SubmissionResultViewModel
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <title>Kết quả bài Listening</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+          crossorigin="anonymous">
+    <style>
+        .option-badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 999px;
+            border: 1px solid #ccc;
+            margin-right: 0.25rem;
+            font-weight: 500;
+        }
+
+        .option-selected {
+            border-width: 2px;
+        }
+
+        .option-correct {
+            background-color: #d1e7dd;
+            border-color: #0f5132;
+        }
+
+        .option-wrong-selected {
+            background-color: #f8d7da;
+            border-color: #842029;
+        }
+
+        .question-card.correct {
+            border-left: 4px solid #0f5132;
+        }
+
+        .question-card.incorrect {
+            border-left: 4px solid #842029;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <div class="container my-4">
+        <div class="row mb-4">
+            <div class="col-12 col-lg-8 mx-auto">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h3 class="card-title mb-3">Kết quả bài Listening</h3>
+                        <p class="mb-1">
+                            Mã lần nộp:
+                            <strong>@Model.SubmissionId</strong>
+                        </p>
+                        <p class="mb-0">
+                            Điểm:
+                            <span class="fw-bold text-primary">
+                                @Model.TotalScore / @Model.Details.Count
+                            </span>
+                        </p>
+                        <p class="text-muted mt-2 mb-0">
+                            Bạn đã trả lời đúng
+                            <strong>@Model.TotalScore</strong> trên
+                            <strong>@Model.Details.Count</strong> câu hỏi.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @if (Model.Details != null && Model.Details.Any())
+        {
+            <div class="row">
+                <div class="col-12 col-lg-8 mx-auto">
+                    @foreach (var detail in Model.Details.OrderBy(d => d.OrderNumber))
+                    {
+                        var cardClass = detail.IsCorrect ? "correct" : "incorrect";
+
+                        <div class="card mb-3 question-card @cardClass shadow-sm">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h5 class="card-title mb-0">
+                                        Câu @detail.OrderNumber
+                                    </h5>
+                                    @if (detail.IsCorrect)
+                                    {
+                                        <span class="badge bg-success">Đúng</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger">Sai</span>
+                                    }
+                                </div>
+
+                                <p class="mb-3">
+                                    @detail.Question
+                                </p>
+
+                                <div class="mb-2">
+                                    @{
+                                        char selected = detail.SelectedOption;
+                                        char correct = detail.CorrectOption;
+
+                                        string GetOptionClass(char optionLetter)
+                                        {
+                                            bool isSelected = selected == optionLetter;
+                                            bool isCorrect = correct == optionLetter;
+
+                                            if (isSelected && isCorrect)
+                                                return "option-badge option-selected option-correct";
+                                            if (isSelected && !isCorrect)
+                                                return "option-badge option-selected option-wrong-selected";
+                                            if (!isSelected && isCorrect)
+                                                return "option-badge option-correct";
+                                            return "option-badge";
+                                        }
+                                    }
+
+                                    <div class="mb-1">
+                                        <span class="@GetOptionClass('A')">
+                                            A. @detail.OptionA
+                                        </span>
+                                    </div>
+                                    <div class="mb-1">
+                                        <span class="@GetOptionClass('B')">
+                                            B. @detail.OptionB
+                                        </span>
+                                    </div>
+                                    <div class="mb-1">
+                                        <span class="@GetOptionClass('C')">
+                                            C. @detail.OptionC
+                                        </span>
+                                    </div>
+                                    <div class="mb-1">
+                                        <span class="@GetOptionClass('D')">
+                                            D. @detail.OptionD
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <hr />
+
+                                <div class="small">
+                                    <p class="mb-1">
+                                        Đáp án của bạn:
+                                        <strong>@(detail.SelectedOption == ' ' ? "(Không chọn)" : detail.SelectedOption)</strong>
+                                    </p>
+                                    <p class="mb-0">
+                                        Đáp án đúng:
+                                        <strong class="text-success">@detail.CorrectOption</strong>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="row">
+                <div class="col-12 col-lg-8 mx-auto">
+                    <div class="alert alert-info">
+                        Chưa có chi tiết câu hỏi trong kết quả.
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous">
+    </script>
+</body>
+</html>

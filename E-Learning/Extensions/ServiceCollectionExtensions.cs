@@ -26,7 +26,7 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddMappingProfiles(this IServiceCollection services)
+    public static IServiceCollection AddMappingProfiles(this IServiceCollection services, Type type, Type type1, Type type2)
     {
         services.AddAutoMapper(typeof(AutoMapperProfile));
         return services;

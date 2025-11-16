@@ -3,7 +3,7 @@ using E_Learning.Helper.CustomAttributes;
 
 namespace E_Learning.Domain.Entities
 {
-    public class ExerciseListening : BaseEntity
+    public class ExercisesReading : BaseEntity
     {
         public Guid Id { get; set; }
 
@@ -29,7 +29,7 @@ namespace E_Learning.Domain.Entities
         public string OptionD { get; set; } = null!;
 
         [CustomRange('A', 'D')]
-        public char CorrectOption { get; set; } 
+        public char CorrectOption { get; set; }
 
         [CustomMaxLength(1000)]
         public string? Explanation { get; set; }
@@ -38,6 +38,5 @@ namespace E_Learning.Domain.Entities
         public int OrderNumber { get; set; }
 
         public Exercise Exercise { get; set; } = null!;
-   
     }
 }

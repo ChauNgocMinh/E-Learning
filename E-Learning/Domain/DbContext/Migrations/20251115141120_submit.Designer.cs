@@ -4,6 +4,7 @@ using E_Learning.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace E_Learning.Infrastructure.DbContext.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251115141120_submit")]
+    partial class Submit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -290,10 +293,7 @@ namespace E_Learning.Infrastructure.DbContext.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("ExerciseListeningId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("ExerciseReadingId")
+                    b.Property<Guid>("ExerciseListeningId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsCorrect")
@@ -316,10 +316,6 @@ namespace E_Learning.Infrastructure.DbContext.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ExerciseListeningId");
-
-                    b.HasIndex("ExerciseReadingId");
 
                     b.HasIndex("SubmissionId");
 
@@ -554,23 +550,11 @@ namespace E_Learning.Infrastructure.DbContext.Migrations
 
             modelBuilder.Entity("E_Learning.Domain.Entities.ExerciseSubmissionDetail", b =>
                 {
-                    b.HasOne("E_Learning.Domain.Entities.ExerciseListening", "ExerciseListening")
-                        .WithMany()
-                        .HasForeignKey("ExerciseListeningId");
-
-                    b.HasOne("E_Learning.Domain.Entities.ExercisesReading", "ExerciseReading")
-                        .WithMany()
-                        .HasForeignKey("ExerciseReadingId");
-
                     b.HasOne("E_Learning.Domain.Entities.ExerciseSubmission", null)
                         .WithMany("Details")
                         .HasForeignKey("SubmissionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("ExerciseListening");
-
-                    b.Navigation("ExerciseReading");
                 });
 
             modelBuilder.Entity("E_Learning.Domain.Entities.ExercisesReading", b =>
