@@ -10,8 +10,7 @@ namespace E_Learning.Cqrs.Handlers.ExercisesReadingQueryHandlers
     {
         public async Task<Exercise> Handle(GetAllExercisesReadingQuery request, CancellationToken cancellationToken)
         {
-            var result = await _context.Exercises
-.Include(e => e.ExerciseReadings.OrderBy(r => r.OrderNumber))
+            var result = await _context.Exercises.Include(e => e.ExerciseReadings.OrderBy(r => r.OrderNumber))
                 .AsNoTracking()
                 .FirstOrDefaultAsync(e => e.Id == request.ExerciseId, cancellationToken);
             return result ?? new Exercise();
