@@ -18,44 +18,47 @@ namespace E_Learning.Cqrs.Handlers.ExercisesListeningQueryHandlers
             var model = request.Model; 
 
    
-            var questions = await _context.ExerciseListenings
+        var questions = await _context.ExerciseListenings
                 .Where(x => x.ExerciseId == model.ExerciseId)
                 .OrderBy(x => x.OrderNumber)
-                .ToListAsync(cancellationToken);
+            .ToListAsync(cancellationToken);
 
           
-            var submission = new ExerciseSubmission
-            {
-                Id = Guid.NewGuid(),
+        var submission = new ExerciseSubmission
+        {
+            Id = Guid.NewGuid(),
                 ExerciseId = model.ExerciseId,
-                UserId = request.UserId,
-            };
+            UserId = request.UserId,
+            TotalScore = 0
+        };
 
      
             foreach (var question in questions)
-            {
+        {
                 model.Answers.TryGetValue(question.Id, out var answerText);
 
                 var selected = string.IsNullOrEmpty(answerText)
-                    ? ' '  
-                    : answerText[0];
+                ? ' '
+                : answerText[0];
 
                 submission.Details.Add(new ExerciseSubmissionDetail
-                {
-                    Id = Guid.NewGuid(),
-                    SubmissionId = submission.Id,
+            {
+                Id = Guid.NewGuid(),
+                SubmissionId = submission.Id,
                     ExerciseListeningId = question.Id,
                     SelectedOption = selected,
                     IsCorrect = selected == question.CorrectOption
                 });
             }
 
-      
+            if (detail.IsCorrect)
+                submission.TotalScore++;
+
             submission.TotalScore = (short)submission.Details.Count(x => x.IsCorrect);
 
-            _context.ExerciseSubmissions.Add(submission);
-            await _context.SaveChangesAsync(cancellationToken);
- 
+        _context.ExerciseSubmissions.Add(submission);
+        await _context.SaveChangesAsync(cancellationToken);
+
             submission = await _context.ExerciseSubmissions
                 .Include(s => s.Details)
                 .ThenInclude(d => d.ExerciseListening)
@@ -65,6 +68,6 @@ namespace E_Learning.Cqrs.Handlers.ExercisesListeningQueryHandlers
             vm.SubmissionId = submission.Id;
 
             return vm;
-        }
     }
+}
 }
