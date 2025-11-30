@@ -1,0 +1,171 @@
+﻿@model E_Learning.Domain.Entities.Exercise
+
+@if (Model != null)
+{
+    <div class="reading-layout">
+
+
+        <div class="left-panel glass">
+            <h2 class="left-title">@Model.Title</h2>
+
+            @if (!string.IsNullOrEmpty(Model.Passage))
+            {
+                <div class="passage-box">
+                    <h4 class="section-title">Đoạn văn</h4>
+                    <p class="passage-text">@Model.Passage</p>
+                </div>
+            }
+        </div>
+
+
+        <div class="right-panel glass">
+            <form method="post" asp-action="Submit" asp-controller="ExercisesReading">
+                <input type="hidden" name="ExerciseId" value="@Model.Id" />
+
+                <div class="questions-container">
+                    @foreach (var q in Model.ExerciseReadings!.OrderBy(x => x.OrderNumber))
+                    {
+                        <div class="question-block">
+                            <h5 class="question-title">
+                                <span class="q-number">Câu @q.OrderNumber</span>
+                                @q.QuestionText
+                            </h5>
+
+                            <div class="options">
+                                <label class="option">
+                                    <input type="radio" name="Answers[@q.Id]" value="A" />
+                                    <span><b>A.</b> @q.OptionA</span>
+                                </label>
+
+                                <label class="option">
+                                    <input type="radio" name="Answers[@q.Id]" value="B" />
+                                    <span><b>B.</b> @q.OptionB</span>
+                                </label>
+
+                                <label class="option">
+                                    <input type="radio" name="Answers[@q.Id]" value="C" />
+                                    <span><b>C.</b> @q.OptionC</span>
+                                </label>
+
+                                <label class="option">
+                                    <input type="radio" name="Answers[@q.Id]" value="D" />
+                                    <span><b>D.</b> @q.OptionD</span>
+                                </label>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <button type="submit" class="btn-submit">Nộp bài</button>
+            </form>
+        </div>
+
+    </div>
+
+    <style>
+
+        /* ======== LAYOUT HAI CỘT ======== */
+
+        .reading-layout {
+            display: grid;
+            grid-template-columns: 45% 55%;
+            height: calc(100vh - 40px);
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .left-panel, .right-panel {
+            overflow-y: auto;
+            padding: 25px;
+            border-radius: 16px;
+            background: rgba(255,255,255,0.55);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.25);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+        }
+
+        /* ======== CỘT TRÁI ======== */
+
+        .left-title {
+            font-size: 26px;
+            font-weight: 700;
+            text-align: center;
+            color: #1e1b4b;
+            margin-bottom: 20px;
+        }
+
+        .passage-box {
+            background: #eef2ff;
+            padding: 18px;
+            border-left: 5px solid #4f46e5;
+            border-radius: 8px;
+        }
+
+        .passage-text {
+            font-size: 17px;
+            line-height: 1.6;
+            white-space: pre-line;
+        }
+
+        /* ======== CỘT PHẢI ======== */
+
+        .question-block {
+            padding: 15px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .question-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .q-number {
+            background: #4f46e5;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 6px;
+            margin-right: 8px;
+            font-size: 14px;
+        }
+
+        .options .option {
+            display: flex;
+            align-items: center;
+            background: #f8f9ff;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+            .options .option:hover {
+                background: #eef0ff;
+            }
+
+        .btn-submit {
+            margin-top: 20px;
+            width: 100%;
+            background: #4f46e5;
+            padding: 12px;
+            font-size: 20px;
+            border-radius: 10px;
+            border: none;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.25s;
+        }
+
+            .btn-submit:hover {
+                background: #3730a3;
+                transform: scale(1.02);
+            }
+
+    </style>
+}
+else
+{
+    <p>Lỗi: Không có dữ liệu bài đọc.</p>
+}

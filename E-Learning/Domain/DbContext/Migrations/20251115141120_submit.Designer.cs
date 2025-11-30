@@ -4,6 +4,7 @@ using E_Learning.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace E_Learning.Infrastructure.DbContext.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251115141120_submit")]
+    partial class Submit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -319,91 +322,6 @@ namespace E_Learning.Infrastructure.DbContext.Migrations
                     b.ToTable("ExerciseSubmissionDetail", (string)null);
                 });
 
-            modelBuilder.Entity("E_Learning.Domain.Entities.ExerciseSubmission", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("ExerciseId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<short>("TotalScore")
-                        .HasColumnType("smallint");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ExerciseId");
-
-                    b.ToTable("ExerciseSubmission", (string)null);
-                });
-
-            modelBuilder.Entity("E_Learning.Domain.Entities.ExerciseSubmissionDetail", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("ExerciseListeningId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("ExerciseReadingId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsCorrect")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SelectedOption")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(1)");
-
-                    b.Property<Guid>("SubmissionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ExerciseListeningId");
-
-                    b.HasIndex("ExerciseReadingId");
-
-                    b.HasIndex("SubmissionId");
-
-                    b.ToTable("ExerciseSubmissionDetail", (string)null);
-                });
-
             modelBuilder.Entity("E_Learning.Domain.Entities.ExercisesReading", b =>
                 {
                     b.Property<Guid>("Id")
@@ -632,23 +550,11 @@ namespace E_Learning.Infrastructure.DbContext.Migrations
 
             modelBuilder.Entity("E_Learning.Domain.Entities.ExerciseSubmissionDetail", b =>
                 {
-                    b.HasOne("E_Learning.Domain.Entities.ExerciseListening", "ExerciseListening")
-                        .WithMany()
-                        .HasForeignKey("ExerciseListeningId");
-
-                    b.HasOne("E_Learning.Domain.Entities.ExercisesReading", "ExerciseReading")
-                        .WithMany()
-                        .HasForeignKey("ExerciseReadingId");
-
                     b.HasOne("E_Learning.Domain.Entities.ExerciseSubmission", null)
                         .WithMany("Details")
                         .HasForeignKey("SubmissionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("ExerciseListening");
-
-                    b.Navigation("ExerciseReading");
                 });
 
             modelBuilder.Entity("E_Learning.Domain.Entities.ExercisesReading", b =>

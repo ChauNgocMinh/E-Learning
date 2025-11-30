@@ -1,6 +1,8 @@
 using E_Learning.Extensions;
 using E_Learning.Infrastructure.Persistence;
 using E_Learning.Mappings;
+using E_Learning.Mappings.ListeningMappings;
+using E_Learning.Mappings.ReadingMappings;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,7 +13,10 @@ builder.Services
     .AddIdentityServices()
     .AddApplicationServices()
     .AddWebServices()
-    .AddMappingProfiles();
+    .AddMappingProfiles(
+    typeof(ListeningMappingProfile),
+    typeof(ReadingMappingProfile),
+    typeof(SubmissionMappingProfile));
 
 var app = builder.Build();
 
