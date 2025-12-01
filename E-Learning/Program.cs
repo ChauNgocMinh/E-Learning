@@ -13,10 +13,7 @@ builder.Services
     .AddIdentityServices()
     .AddApplicationServices()
     .AddWebServices()
-    .AddMappingProfiles(
-    typeof(ListeningMappingProfile),
-    typeof(ReadingMappingProfile),
-    typeof(SubmissionMappingProfile));
+    .AddAutoMapper(typeof(Program).Assembly);
 
 var app = builder.Build();
 

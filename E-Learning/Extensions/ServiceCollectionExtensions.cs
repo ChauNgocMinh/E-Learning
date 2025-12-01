@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using E_Learning.Infrastructure.Persistence;
 using E_Learning.Mappings;
+using E_Learning.Repositories.Interface;
+using E_Learning.Repositories.Imp;
 
 namespace E_Learning.Extensions;
 public static class ServiceCollectionExtensions
@@ -9,7 +11,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
-        //services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped(typeof(ICommonRepository<>), typeof(CommonRepository<>));
         return services;
     }
 
@@ -23,12 +25,6 @@ public static class ServiceCollectionExtensions
     {
         services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(config.GetConnectionString("DefaultConnection")));
-        return services;
-    }
-
-    public static IServiceCollection AddMappingProfiles(this IServiceCollection services, Type type, Type type1, Type type2)
-    {
-        services.AddAutoMapper(typeof(AutoMapperProfile));
         return services;
     }
 }

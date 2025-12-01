@@ -6,7 +6,6 @@ namespace E_Learning.Domain.Entities
 {
     public class ExerciseSubmission : BaseEntity
     {
-        public Guid Id { get; set; }
         public Guid ExerciseId { get; set; }
         public Guid UserId { get; set; }
         public short TotalScore { get; set; }

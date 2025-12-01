@@ -6,8 +6,6 @@ namespace E_Learning.Domain.Entities
 {
     public class Exercise : BaseEntity
     {
-        public Guid Id { get; set; }
-
         [CustomRequired]
         public SkillType Skill { get; set; }
 
