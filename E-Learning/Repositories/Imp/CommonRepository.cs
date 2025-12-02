@@ -1,6 +1,7 @@
 ﻿
 using Azure.Core;
 using E_Learning.Domain.Comon;
+using E_Learning.Infrastructure.Persistence;
 using E_Learning.Repositories.Interface;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,10 +9,10 @@ namespace E_Learning.Repositories.Imp
 {
     public class CommonRepository<T> : ICommonRepository<T> where T : BaseEntity
     {
-        private readonly DbContext _context;
+        private readonly ApplicationDbContext _context;
         private readonly DbSet<T> _dbSet;
 
-        public CommonRepository(DbContext context)
+        public CommonRepository(ApplicationDbContext context)
         {
             _context = context;
             _dbSet = _context.Set<T>();
