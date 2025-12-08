@@ -17,7 +17,7 @@ namespace E_Learning.Domain.Entities
         public string? SampleImageUrl { get; set; } // diagram, chart, map
 
         [CustomMaxLength(4000)]
-        public string? ModelAnswer { get; set; } // high-band sample
+        public string? ModelAnswer { get; set; } // high-band sample 
 
         public string? RubricJson { get; set; } // scoring structure
 
