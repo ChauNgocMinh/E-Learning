@@ -5,3 +5,4 @@ public record SubmitReadingExerciseCommand(
     ReadingSubmitViewModel Model,
     Guid UserId
 ) : IRequest<SubmissionResultViewModel>;
+

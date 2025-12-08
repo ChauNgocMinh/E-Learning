@@ -4,24 +4,23 @@ using E_Learning.Cqrs.Queries.ExercisesReadingQueries;
 using E_Learning.ViewModel;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-
-namespace E_Learning.Controllers
+namespace E_Learning.Controllers;
+public class ExercisesReadingController(IMediator _mediator) : BaseController
 {
-    public class ExercisesReadingController(IMediator _mediator) : BaseController
+
+    public async Task<IActionResult> Index(Guid exerciseId)
     {
-        public async Task<IActionResult> Index(Guid exerciseId)
-        {
-            var exercise = await _mediator.Send(new GetAllExercisesReadingQuery(exerciseId));
-            return View(exercise);
-        }
+        var vm = await _mediator.Send(new GetReadingExerciseQuery(exerciseId));
+        return View(vm);
+    }
 
-        [HttpPost]
-        public async Task<IActionResult> Submit(ReadingSubmitViewModel model)
-        {
-            var userId = Guid.NewGuid();
+    [HttpPost]
+    public async Task<IActionResult> Submit(ReadingSubmitViewModel model)
+    {
+        var userId = GetUserId() ?? Guid.Empty;
 
-            var vm = await _mediator.Send(new SubmitReadingExerciseCommand(model, userId));
-            return View("Result", vm);
-        }
+        var result = await _mediator.Send(new SubmitReadingExerciseCommand(model, userId));
+
+        return View("Result", result);
     }
 }

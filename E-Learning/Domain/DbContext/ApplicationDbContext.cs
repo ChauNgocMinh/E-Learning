@@ -5,14 +5,20 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace E_Learning.Infrastructure.Persistence;
-public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
+public class ApplicationDbContext
+    : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IHttpContextAccessor httpContextAccessor) : base(options)
+    public ApplicationDbContext(
+        DbContextOptions<ApplicationDbContext> options,
+        IHttpContextAccessor httpContextAccessor
+    ) : base(options)
     {
         _httpContextAccessor = httpContextAccessor;
     }
+
+
 
     #region override func SaveChanges ef core
     public override int SaveChanges()
@@ -46,9 +52,9 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
     public DbSet<Product> Products { get; set; }
     public DbSet<Exercise> Exercises { get; set; }
     public DbSet<ExerciseListening> ExerciseListenings { get; set; }
-    public DbSet<ExercisesReading> ExercisesReadings { get; set; }
-    public DbSet<ExerciseSubmission> ExerciseSubmissions { get; set; }
-    public DbSet<ExerciseSubmissionDetail> ExerciseSubmissionDetails { get; set; }
+    public DbSet<ExerciseReading> ExerciseReadings { get; set; }
+    public DbSet<Submission> Submissions { get; set; }
+    public DbSet<SubmissionDetail> SubmissionDetails { get; set; }
 
     #endregion
 
@@ -119,7 +125,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
                   .WithMany(e => e.ExerciseListenings)
                   .HasForeignKey(e => e.ExerciseId);
         });
-        modelBuilder.Entity<ExercisesReading>(entity =>
+        modelBuilder.Entity<ExerciseReading>(entity =>
         {
             entity.ToTable("ExercisesReading");
             entity.HasKey(e => e.Id);
@@ -127,23 +133,29 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
                   .WithMany(e => e.ExerciseReadings)
                   .HasForeignKey(e => e.ExerciseId);
         });
-        modelBuilder.Entity<ExerciseSubmission>(entity =>
+   
+        modelBuilder.Entity<Submission>(entity =>
         {
-            entity.ToTable("ExerciseSubmission");
+            entity.ToTable("Submission");
+
             entity.HasKey(e => e.Id);
-            entity.HasOne<Exercise>()
-                  .WithMany()
+
+            entity.HasOne(e => e.Exercise)
+                  .WithMany(e => e.Submissions)
                   .HasForeignKey(e => e.ExerciseId)
                   .OnDelete(DeleteBehavior.Cascade);
         });
 
-        modelBuilder.Entity<ExerciseSubmissionDetail>(entity =>
+
+        modelBuilder.Entity<SubmissionDetail>(entity =>
         {
-            entity.ToTable("ExerciseSubmissionDetail");
+            entity.ToTable("SubmissionDetail");
+
             entity.HasKey(e => e.Id);
-            entity.HasOne<ExerciseSubmission>()
+
+            entity.HasOne(d => d.Submission)
                   .WithMany(s => s.Details)
-                  .HasForeignKey(e => e.SubmissionId)
+                  .HasForeignKey(d => d.SubmissionId)
                   .OnDelete(DeleteBehavior.Cascade);
         });
 

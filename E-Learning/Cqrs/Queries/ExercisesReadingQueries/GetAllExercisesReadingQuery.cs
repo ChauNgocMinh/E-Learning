@@ -1,4 +1,4 @@
-﻿using E_Learning.Domain.Entities;
+﻿/*using E_Learning.Domain.Entities;
 using MediatR;
 
 namespace E_Learning.Cqrs.Queries.ExercisesReadingQueries
@@ -7,3 +7,4 @@ namespace E_Learning.Cqrs.Queries.ExercisesReadingQueries
 
 
 }
+*/

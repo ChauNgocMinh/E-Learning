@@ -1,141 +1,39 @@
-﻿@using E_Learning.ViewModel
-@model SubmissionResultViewModel
+﻿@model E_Learning.ViewModel.SubmissionResultViewModel
 
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="utf-8" />
-    <title>Kết quả bài đọc</title>
+@{
+    ViewData["Title"] = "Kết quả Listening";
+}
 
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+<h2>Kết quả bài làm</h2>
 
-    <style>
-        .question-card {
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 25px;
+<p><strong>Bài:</strong> @Model.ExerciseTitle</p>
+<p><strong>Thời gian nộp:</strong> @Model.SubmittedAt.ToString("dd/MM/yyyy HH:mm")</p>
+<p><strong>Điểm:</strong> @Model.TotalScore / @Model.TotalQuestions</p>
+
+<hr />
+
+<h4>Chi tiết từng câu</h4>
+
+@foreach (var d in Model.Details)
+{
+    <div class="card mb-3 p-3 @(d.IsCorrect ? "border-success" : "border-danger")">
+        <h5>Câu @d.OrderNumber: @d.QuestionText</h5>
+
+        <p>
+            <strong>Đáp án của bạn:</strong>
+            <span class="@(d.IsCorrect ? "text-success" : "text-danger")">@d.UserInput</span>
+        </p>
+
+        <p>
+            <strong>Đáp án đúng:</strong>
+            <span class="text-success">@d.CorrectAnswer</span>
+        </p>
+
+        @if (!string.IsNullOrEmpty(d.Explanation))
+        {
+            <p><strong>Giải thích:</strong> @d.Explanation</p>
         }
-
-        .correct-box {
-            border-left: 5px solid #198754;
-            background: #e9f7ef;
-        }
-
-        .wrong-box {
-            border-left: 5px solid #dc3545;
-            background: #fdeaea;
-        }
-
-        .option-box {
-            padding: 6px 12px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            margin-bottom: 6px;
-        }
-
-        .selected {
-            border: 2px solid #0d6efd;
-            background-color: #e8f0ff;
-        }
-
-        .correct {
-            border: 2px solid #198754 !important;
-            background-color: #e9f7ef !important;
-            font-weight: 600;
-        }
-
-        .wrong-selected {
-            border: 2px solid #dc3545 !important;
-            background-color: #fdeaea !important;
-        }
-    </style>
-</head>
-
-<body class="bg-light">
-    <div class="container mt-5">
-
-
-        <div class="col-md-8 mx-auto mb-4">
-            <h2 class="text-center mb-3">Kết quả bài đọc</h2>
-
-            <div class="card shadow-sm p-4">
-                <h5 class="text-center mb-3">
-                    <span class="fw-bold">Điểm:</span>
-                    @Model.TotalScore / @Model.Details.Count
-                </h5>
-
-                <h6 class="text-center text-secondary">
-                    Tỷ lệ đúng:
-                    @{
-                        var percent = (double)Model.TotalScore / Model.Details.Count * 100;
-                    }
-                    @percent.ToString("0.0")%
-                </h6>
-            </div>
-        </div>
-
-
-        <div class="col-md-8 mx-auto">
-            @foreach (var q in Model.Details.OrderBy(x => x.OrderNumber))
-            {
-                var css = q.IsCorrect ? "correct-box" : "wrong-box";
-
-                <div class="question-card @css shadow-sm">
-
-                    <h5 class="mb-3">Câu @q.OrderNumber:</h5>
-
-
-                    @{
-                        char selected = q.SelectedOption;
-                        char correct = q.CorrectOption;
-
-                        string OptClass(char opt)
-                        {
-                            if (selected == opt && correct == opt)
-                                return "option-box correct";
-
-                            if (selected == opt && correct != opt)
-                                return "option-box wrong-selected";
-
-                            if (correct == opt)
-                                return "option-box correct";
-
-                            return "option-box";
-                        }
-                    }
-
-                    <div class="@OptClass('A')">A. @q.OptionA</div>
-                    <div class="@OptClass('B')">B. @q.OptionB</div>
-                    <div class="@OptClass('C')">C. @q.OptionC</div>
-                    <div class="@OptClass('D')">D. @q.OptionD</div>
-
-                    <hr />
-
-                    <p class="mb-1">
-                        <strong>Đáp án bạn chọn:</strong>
-                        @(q.SelectedOption == ' ' ? "(Không chọn)" : q.SelectedOption)
-                    </p>
-
-                    <p class="text-success fw-bold mb-0">
-                        Đáp án đúng: @q.CorrectOption
-                    </p>
-
-                    @if (!q.IsCorrect)
-                    {
-                        <p class="text-danger mt-2 fw-bold">✗ Bạn trả lời sai!</p>
-                    }
-                    else
-                    {
-                        <p class="text-success mt-2 fw-bold">✓ Chính xác!</p>
-                    }
-                </div>
-            }
-        </div>
     </div>
+}
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
- 
+<a href="/Exercise/Index" class="btn btn-secondary mt-3">Quay lại danh sách bài tập</a>

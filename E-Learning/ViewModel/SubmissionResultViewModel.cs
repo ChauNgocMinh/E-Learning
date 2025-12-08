@@ -1,22 +1,41 @@
-﻿namespace E_Learning.ViewModel;
-public class SubmissionResultViewModel
-{
-    public Guid SubmissionId { get; set; }
-    public int TotalScore { get; set; }
-    public List<SubmissionDetailViewModel> Details { get; set; } = new();
- 
+﻿using System;
+using System.Collections.Generic;
 
-}
-
-public class SubmissionDetailViewModel
+namespace E_Learning.ViewModel
 {
-    public string Question { get; set; } = null!;
-    public string OptionA { get; set; } = null!;
-    public string OptionB { get; set; } = null!;
-    public string OptionC { get; set; } = null!;
-    public string OptionD { get; set; } = null!;
-    public char SelectedOption { get; set; }
-    public char CorrectOption { get; set; }
-    public bool IsCorrect { get; set; }
-    public int OrderNumber { get; set; }  
+    public class SubmissionResultViewModel
+    {
+        public Guid SubmissionId { get; set; }
+        public Guid ExerciseId { get; set; }
+
+        public string ExerciseTitle { get; set; } = string.Empty;
+
+        public short TotalScore { get; set; }
+        public int TotalQuestions { get; set; }
+
+        public DateTime SubmittedAt { get; set; }
+
+        public List<SubmissionDetailResultViewModel> Details { get; set; } = new();
+    }
+
+    public class SubmissionDetailResultViewModel
+    {
+        public Guid QuestionId { get; set; }
+        public int OrderNumber { get; set; }
+
+        public string QuestionText { get; set; } = string.Empty;
+
+        public string OptionA { get; set; } = string.Empty;
+        public string OptionB { get; set; } = string.Empty;
+        public string OptionC { get; set; } = string.Empty;
+        public string OptionD { get; set; } = string.Empty;
+
+        public string UserInput { get; set; } = string.Empty;
+        public string CorrectAnswer { get; set; } = string.Empty;
+
+        public bool IsCorrect { get; set; }
+        public int Score { get; set; }
+
+        public string? Explanation { get; set; }
+    }
 }

@@ -1,12 +1,12 @@
-﻿@using E_Learning.Domain.Comon
-@using E_Learning.Domain.Entities
+﻿@using E_Learning.Domain.Entities
+@using E_Learning.Domain.Comon
 @using E_Learning.Domain.Enums
 @model ListPages<Exercise>
-
 
 @{
     ViewData["Title"] = "Tất cả bài tập";
 }
+
 <style>
     .exercise-card-img {
         height: 180px;
@@ -14,8 +14,6 @@
     }
 </style>
 
-    
-}
 <div class="container py-4">
 
     <!-- Header & Search -->
@@ -27,42 +25,35 @@
         </form>
     </div>
 
-    <!-- Grid Layout -->
     <div class="row g-4">
         @foreach (var item in Model.Items)
         {
-            var skillInt = (int)item.Skill; 
-
-            string skillLabel = skillInt switch
+            var skill = item.Skill;
+            string skillLabel = skill.ToString();
+            string controllerName = skill switch
             {
-                1 => "Listening",
-                2 => "Reading",
-                3 => "Speaking",
-                4 => "Writing",
-                _ => "Skill"
-            };
-            string namecontroller = skillInt switch
-            {
-        1 => "ExercisesListening",
-        2 => "ExercisesReading",
-                3 => "Speaking",
-                4 => "Writing",
-                _ => "Skill"
+                SkillType.Listening => "ExercisesListening",
+                SkillType.Reading => "ExercisesReading",
+                SkillType.Speaking => "ExercisesSpeaking",
+                SkillType.Writing => "ExercisesWriting",
+                _ => "Exercises"
             };
 
-            string badgeColor = skillInt switch
+            string badgeColor = skill switch
             {
-                1 => "bg-primary",
-                2 => "bg-success",
-                3 => "bg-warning text-dark",
-                4 => "bg-danger",
+                SkillType.Listening => "bg-primary",
+                SkillType.Reading => "bg-success",
+                SkillType.Speaking => "bg-warning text-dark",
+                SkillType.Writing => "bg-danger",
                 _ => "bg-secondary"
             };
-
             <div class="col-sm-6 col-md-4 col-lg-3">
                 <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden">
+
                     <div class="position-relative">
-                        <img class="card-img-top exercise-card-img" src="@(!string.IsNullOrEmpty(item.ImageUrl) ? item.ImageUrl : "/img/default.jpg")" />
+                        <img class="card-img-top exercise-card-img"
+                             src="@(!string.IsNullOrEmpty(item.ImageUrl) ? item.ImageUrl : "/img/default.jpg")" />
+
                         <span class="badge @badgeColor position-absolute top-0 start-0 m-2 px-3 py-2 rounded-pill fs-6 shadow-sm">
                             @skillLabel
                         </span>
@@ -70,15 +61,13 @@
 
                     <div class="card-body d-flex flex-column">
                         <h6 class="card-title fw-bold text-truncate mb-1" title="@item.Title">@item.Title</h6>
-                        <p class="card-text text-muted small" style="max-height: 40px; overflow: hidden; text-overflow: ellipsis;">
+                        <p class="card-text text-muted small" style="height:40px; overflow:hidden;">
                             @item.Description
                         </p>
-               
+
                         <div class="mt-auto d-flex justify-content-between align-items-center">
-                            <a asp-controller="@namecontroller" asp-action="Index" asp-route-exerciseId="@item.Id" class="btn btn-outline-primary btn-sm rounded-pill px-3">
-                                Xem chi tiết
-                            </a>
-                            <a href="@Url.Action("Index", "ExercisesReading", new { exerciseId = item.Id })" class="btn btn-outline-primary btn-sm rounded-pill px-3">
+                            <a asp-controller="@controllerName" asp-action="Index" asp-route-exerciseId="@item.Id"
+                               class="btn btn-outline-primary btn-sm rounded-pill px-3">
                                 Xem chi tiết
                             </a>
 
@@ -87,6 +76,7 @@
                             </span>
                         </div>
                     </div>
+
                 </div>
             </div>
         }
@@ -100,18 +90,18 @@
         <nav class="mt-5 d-flex justify-content-center">
             <ul class="pagination">
                 <li class="page-item @(Model.Page == 1 ? "disabled" : "")">
-                    <a class="page-link" href="@Url.Action("Index", new { page = Model.Page - 1, pageSize = Model.PageSize })">&laquo;</a>
+                    <a class="page-link" href="?page=@(Model.Page - 1)&pageSize=@Model.PageSize">&laquo;</a>
                 </li>
 
                 @for (var i = 1; i <= totalPages; i++)
                 {
                     <li class="page-item @(i == Model.Page ? "active" : "")">
-                        <a class="page-link" href="@Url.Action("Index", new { page = i, pageSize = Model.PageSize })">@i</a>
+                        <a class="page-link" href="?page=@i&pageSize=@Model.PageSize">@i</a>
                     </li>
                 }
 
                 <li class="page-item @(Model.Page == totalPages ? "disabled" : "")">
-                    <a class="page-link" href="@Url.Action("Index", new { page = Model.Page + 1, pageSize = Model.PageSize })">&raquo;</a>
+                    <a class="page-link" href="?page=@(Model.Page + 1)&pageSize=@Model.PageSize">&raquo;</a>
                 </li>
             </ul>
         </nav>

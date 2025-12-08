@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿/*using AutoMapper;
 using E_Learning.Domain.Entities;
 using E_Learning.ViewModel;
 
@@ -26,3 +26,4 @@ namespace E_Learning.Mappings.ReadingMappings
         }
     }
 }
+*/

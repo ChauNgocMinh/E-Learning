@@ -31,6 +31,11 @@ namespace E_Learning.Domain.Entities
         public int AttemptCount { get; set; } = 0;
 
         public ICollection<ExerciseListening>? ExerciseListenings { get; set; }
-        public ICollection<ExercisesReading>? ExerciseReadings { get; set; }
+        public ICollection<ExerciseReading>? ExerciseReadings { get; set; }
+        public ICollection<ExerciseWriting>? ExerciseWritings { get; set; }
+        public ICollection<ExerciseSpeaking>? ExerciseSpeakings { get; set; }
+        public ICollection<Submission>? Submissions { get; set; }
+    
+
     }
 }
