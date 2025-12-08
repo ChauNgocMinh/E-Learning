@@ -88,8 +88,6 @@ public class ApplicationDbContext
         {
             entity.ToTable("Product");
 
-            entity.HasKey(b => b.Id);
-
             entity.Property(b => b.Name)
                 .IsRequired()
                 .HasMaxLength(255);
@@ -101,7 +99,6 @@ public class ApplicationDbContext
         {
             entity.ToTable("Exercise");
 
-            entity.HasKey(e => e.Id);
             entity.Property(e => e.Skill)
                   .HasConversion<int>();
             entity.Property(e => e.AttemptCount)
@@ -120,7 +117,6 @@ public class ApplicationDbContext
         {
             entity.ToTable("ExerciseListening");
 
-            entity.HasKey(e => e.Id);
             entity.HasOne(e => e.Exercise)
                   .WithMany(e => e.ExerciseListenings)
                   .HasForeignKey(e => e.ExerciseId);
@@ -128,7 +124,6 @@ public class ApplicationDbContext
         modelBuilder.Entity<ExerciseReading>(entity =>
         {
             entity.ToTable("ExercisesReading");
-            entity.HasKey(e => e.Id);
             entity.HasOne(e => e.Exercise)
                   .WithMany(e => e.ExerciseReadings)
                   .HasForeignKey(e => e.ExerciseId);
@@ -136,12 +131,9 @@ public class ApplicationDbContext
    
         modelBuilder.Entity<Submission>(entity =>
         {
-            entity.ToTable("Submission");
-
-            entity.HasKey(e => e.Id);
-
-            entity.HasOne(e => e.Exercise)
-                  .WithMany(e => e.Submissions)
+            entity.ToTable("ExerciseSubmission");
+            entity.HasOne<Exercise>()
+                  .WithMany()
                   .HasForeignKey(e => e.ExerciseId)
                   .OnDelete(DeleteBehavior.Cascade);
         });
@@ -149,11 +141,8 @@ public class ApplicationDbContext
 
         modelBuilder.Entity<SubmissionDetail>(entity =>
         {
-            entity.ToTable("SubmissionDetail");
-
-            entity.HasKey(e => e.Id);
-
-            entity.HasOne(d => d.Submission)
+            entity.ToTable("ExerciseSubmissionDetail");
+            entity.HasOne<ExerciseSubmission>()
                   .WithMany(s => s.Details)
                   .HasForeignKey(d => d.SubmissionId)
                   .OnDelete(DeleteBehavior.Cascade);

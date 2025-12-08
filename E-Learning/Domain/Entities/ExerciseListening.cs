@@ -5,8 +5,6 @@ namespace E_Learning.Domain.Entities
 {
     public class ExerciseListening : BaseEntity
     {
-        public Guid Id { get; set; }
-
         public Guid ExerciseId { get; set; }
 
         [CustomRequired]

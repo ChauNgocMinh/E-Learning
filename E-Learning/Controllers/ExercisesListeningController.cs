@@ -9,24 +9,18 @@ namespace E_Learning.Controllers
 {
     public class ExercisesListeningController(IMediator _mediator) : BaseController
     {
-   
         public async Task<IActionResult> Index(Guid exerciseId)
         {
-            var vm = await _mediator.Send(new GetListeningExerciseQuery(exerciseId));
-            return View(vm);
+            var result = await _mediator.Send(new GetAllExercisesListeningQuery(exerciseId));
+            return View(result);
         }
-        
+
         [HttpPost]
         public async Task<IActionResult> Submit(ListeningSubmitViewModel model)
         {
-            var userId = GetUserId() ?? Guid.Empty;
-
-            var result = await _mediator.Send(
-                new SubmitListeningExerciseCommand(model, userId)
-            );
-
-            return View("Result", result);
+            var userId = Guid.NewGuid();
+            var vm = await _mediator.Send(new SubmitListeningExerciseCommand(model, userId));
+            return View("Result", vm);
         }
-
     }
 }
