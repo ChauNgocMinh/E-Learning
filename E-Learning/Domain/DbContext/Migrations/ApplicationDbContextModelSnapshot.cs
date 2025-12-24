@@ -338,7 +338,7 @@ namespace E_Learning.Infrastructure.DbContext.Migrations
 
                     b.HasIndex("ExerciseId");
 
-                    b.ToTable("ExerciseSpeaking");
+                    b.ToTable("ExerciseSpeaking", (string)null);
                 });
 
             modelBuilder.Entity("E_Learning.Domain.Entities.ExerciseWriting", b =>
@@ -385,7 +385,7 @@ namespace E_Learning.Infrastructure.DbContext.Migrations
 
                     b.HasIndex("ExerciseId");
 
-                    b.ToTable("ExerciseWriting");
+                    b.ToTable("ExerciseWriting", (string)null);
                 });
 
             modelBuilder.Entity("E_Learning.Domain.Entities.Product", b =>
@@ -431,14 +431,32 @@ namespace E_Learning.Infrastructure.DbContext.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid>("ExerciseId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ResultJson")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("SubmittedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<short>("TotalScore")
                         .HasColumnType("smallint");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -447,38 +465,7 @@ namespace E_Learning.Infrastructure.DbContext.Migrations
 
                     b.HasIndex("ExerciseId");
 
-                    b.ToTable("Submission", (string)null);
-                });
-
-            modelBuilder.Entity("E_Learning.Domain.Entities.SubmissionDetail", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsCorrect")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid>("QuestionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("QuestionType")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Score")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("SubmissionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("UserInput")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SubmissionId");
-
-                    b.ToTable("SubmissionDetail", (string)null);
+                    b.ToTable("ExerciseSubmission", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -633,21 +620,10 @@ namespace E_Learning.Infrastructure.DbContext.Migrations
                     b.HasOne("E_Learning.Domain.Entities.Exercise", "Exercise")
                         .WithMany("Submissions")
                         .HasForeignKey("ExerciseId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Exercise");
-                });
-
-            modelBuilder.Entity("E_Learning.Domain.Entities.SubmissionDetail", b =>
-                {
-                    b.HasOne("E_Learning.Domain.Entities.Submission", "Submission")
-                        .WithMany("Details")
-                        .HasForeignKey("SubmissionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Submission");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -712,11 +688,6 @@ namespace E_Learning.Infrastructure.DbContext.Migrations
                     b.Navigation("ExerciseWritings");
 
                     b.Navigation("Submissions");
-                });
-
-            modelBuilder.Entity("E_Learning.Domain.Entities.Submission", b =>
-                {
-                    b.Navigation("Details");
                 });
 #pragma warning restore 612, 618
         }

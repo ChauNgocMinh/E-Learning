@@ -4,5 +4,5 @@ using MediatR;
 namespace E_Learning.Cqrs.Queries.ExercisesReadingQueries
 {
     public record GetReadingExerciseQuery(Guid ExerciseId)
-       : IRequest<ReadingExerciseViewModel>;
+        : IRequest<ReadingExerciseViewModel>;
 }

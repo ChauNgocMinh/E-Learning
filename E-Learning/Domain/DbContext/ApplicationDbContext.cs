@@ -29,13 +29,14 @@ public class ApplicationDbContext
         {
             if (entry.State == EntityState.Added)
             {
-                entry.Entity.CreatedAt = DateTime.Now;
+                entry.Entity.Id = Guid.NewGuid();
+                entry.Entity.CreatedAt = DateTime.UtcNow;
                 entry.Entity.CreatedBy = _httpContextAccessor.HttpContext?.User?.Identity?.Name;
                 entry.Entity.IsDeleted = false;
             }
             else if (entry.State == EntityState.Modified)
             {
-                entry.Entity.UpdatedAt = DateTime.Now;
+                entry.Entity.CreatedAt = DateTime.UtcNow;
                 entry.Entity.UpdatedBy = _httpContextAccessor.HttpContext?.User?.Identity?.Name;
             }
             else if (entry.State == EntityState.Deleted)
@@ -53,8 +54,10 @@ public class ApplicationDbContext
     public DbSet<Exercise> Exercises { get; set; }
     public DbSet<ExerciseListening> ExerciseListenings { get; set; }
     public DbSet<ExerciseReading> ExerciseReadings { get; set; }
+    public DbSet<ExerciseWriting> ExerciseWritings { get; set; }
+    public DbSet<ExerciseSpeaking> ExerciseSpeakings { get; set; }
     public DbSet<Submission> Submissions { get; set; }
-    public DbSet<SubmissionDetail> SubmissionDetails { get; set; }
+
 
     #endregion
 
@@ -111,43 +114,44 @@ public class ApplicationDbContext
                  .WithOne(el => el.Exercise)
                  .HasForeignKey(el => el.ExerciseId)
                  .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasMany(e => e.ExerciseWritings)
+                    .WithOne(el => el.Exercise)
+                    .HasForeignKey(el => el.ExerciseId)
+                    .OnDelete(DeleteBehavior.Cascade);
+            entity.HasMany(e => e.ExerciseSpeakings)
+                    .WithOne(el => el.Exercise)
+                    .HasForeignKey(el => el.ExerciseId)
+                    .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<ExerciseListening>(entity =>
         {
             entity.ToTable("ExerciseListening");
 
-            entity.HasOne(e => e.Exercise)
-                  .WithMany(e => e.ExerciseListenings)
-                  .HasForeignKey(e => e.ExerciseId);
+
         });
         modelBuilder.Entity<ExerciseReading>(entity =>
         {
             entity.ToTable("ExercisesReading");
-            entity.HasOne(e => e.Exercise)
-                  .WithMany(e => e.ExerciseReadings)
-                  .HasForeignKey(e => e.ExerciseId);
+
         });
-   
+        modelBuilder.Entity<ExerciseSpeaking>(entity =>
+        {
+            entity.ToTable("ExerciseSpeaking");
+        });
+        modelBuilder.Entity<ExerciseWriting>(entity =>
+        {
+            entity.ToTable("ExerciseWriting");
+        });
         modelBuilder.Entity<Submission>(entity =>
         {
             entity.ToTable("ExerciseSubmission");
-            entity.HasOne<Exercise>()
-                  .WithMany()
-                  .HasForeignKey(e => e.ExerciseId)
-                  .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(s => s.Exercise)
+                  .WithMany(e => e.Submissions)
+                  .HasForeignKey(s => s.ExerciseId)
+                  .OnDelete(DeleteBehavior.Restrict);
         });
-
-
-        modelBuilder.Entity<SubmissionDetail>(entity =>
-        {
-            entity.ToTable("ExerciseSubmissionDetail");
-            entity.HasOne<ExerciseSubmission>()
-                  .WithMany(s => s.Details)
-                  .HasForeignKey(d => d.SubmissionId)
-                  .OnDelete(DeleteBehavior.Cascade);
-        });
-
-
     }
 }

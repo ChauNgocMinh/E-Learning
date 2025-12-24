@@ -13,6 +13,10 @@ builder.Services
     .AddApplicationServices()
     .AddWebServices()
     .AddAutoMapper(typeof(Program));
+  /*  .AddRazorPages();*/
+
+
+
 
 
 var app = builder.Build();

@@ -12,6 +12,7 @@ public static class MiddlewareExtensions
         app.UseRouting();
         app.UseAuthentication();
         app.UseAuthorization();
+     /*   app.MapRazorPages();*/
         app.ApplyMigrations();
         app.MapControllerRoute(
             name: "default",

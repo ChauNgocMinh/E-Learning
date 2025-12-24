@@ -19,15 +19,27 @@ namespace E_Learning.Cqrs.Handlers.ExercisesListeningQueryHandlers
                 .AsNoTracking()
                 .ToListAsync(cancellationToken);
 
-            
-            var exercise = questions[0].Exercise;
+            if (questions.Count == 0)
+                throw new Exception("Exercise does not have any listening questions.");
+
+            var exercise = questions.First().Exercise;
 
             return new ListeningExerciseViewModel
             {
                 ExerciseId = request.ExerciseId,
                 ExerciseTitle = exercise.Title,
                 AudioUrl = exercise.AudioUrl,
-                Questions = questions
+                Questions = questions.Select(q => new ListeningQuestionViewModel
+                {
+                    QuestionId = q.Id,
+                    QuestionText = q.QuestionText,
+                    OptionA = q.OptionA,
+                    OptionB = q.OptionB,
+                    OptionC = q.OptionC,
+                    OptionD = q.OptionD
+
+                }).ToList()
+                 
             };
         }
     }

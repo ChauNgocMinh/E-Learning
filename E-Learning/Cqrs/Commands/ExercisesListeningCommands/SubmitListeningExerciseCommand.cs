@@ -3,9 +3,9 @@ using MediatR;
 
 namespace E_Learning.Cqrs.Commands.ExercisesListeningCommands
 {
-    
     public record SubmitListeningExerciseCommand(
-        ListeningSubmitViewModel Model,
-        Guid UserId
+        Guid ExerciseId,
+        Guid UserId,
+        Dictionary<Guid, string> Answers
     ) : IRequest<SubmissionResultViewModel>;
 }

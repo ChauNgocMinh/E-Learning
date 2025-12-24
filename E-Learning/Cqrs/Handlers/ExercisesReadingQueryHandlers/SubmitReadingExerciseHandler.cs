@@ -1,89 +1,101 @@
-﻿using AutoMapper;
-using E_Learning.Cqrs.Commands.ExercisesReadingCommands;
+﻿using E_Learning.Cqrs.Commands.ExercisesReadingCommands;
 using E_Learning.Domain.Entities;
 using E_Learning.Infrastructure.Persistence;
+using E_Learning.Submissions.Snapshots;
 using E_Learning.ViewModel;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 
-namespace E_Learning.Cqrs.Handlers.ExercisesReadingHandlers
+namespace E_Learning.Cqrs.Handlers.ExercisesReadingCommandHandlers
 {
-    public class SubmitReadingExerciseHandler(ApplicationDbContext _context, IMapper _mapper)
+    public class SubmitReadingExerciseCommandHandler(ApplicationDbContext _context)
         : IRequestHandler<SubmitReadingExerciseCommand, SubmissionResultViewModel>
     {
+       
 
-        public async Task<SubmissionResultViewModel> Handle(SubmitReadingExerciseCommand request, CancellationToken cancellationToken)
+        public async Task<SubmissionResultViewModel> Handle(
+            SubmitReadingExerciseCommand request,
+            CancellationToken cancellationToken)
         {
-            var model = request.Model;
+            var exercise = await _context.Exercises
+                .AsNoTracking()
+                .FirstAsync(x => x.Id == request.ExerciseId, cancellationToken);
 
-            // --- 1. Load questions ---
             var questions = await _context.ExerciseReadings
-                .Where(q => q.ExerciseId == model.ExerciseId)
-                .OrderBy(q => q.OrderNumber)
+                .Where(x => x.ExerciseId == request.ExerciseId)
+                .OrderBy(x => x.OrderNumber)
                 .ToListAsync(cancellationToken);
 
-            if (!questions.Any())
-                throw new InvalidOperationException("No reading questions found.");
+            var snapshot = new ReadingSubmissionSnapshot();
+            int correctCount = 0;
 
-            // --- 2. Create submission ---
-            var submission = new Submission
+            foreach (var q in questions)
             {
-                Id = Guid.NewGuid(),
-                ExerciseId = model.ExerciseId,
-                UserId = request.UserId,
-                SubmittedAt = DateTime.UtcNow,
-                Details = new List<SubmissionDetail>()
-            };
+                request.Answers.TryGetValue(q.Id, out var userAnswer);
 
-            // --- 3. Process each question ---
-            foreach (var question in questions)
-            {
-                model.Answers.TryGetValue(question.Id, out var userAnswer);
+                bool isCorrect =
+                    !string.IsNullOrWhiteSpace(userAnswer) &&
+                    userAnswer.Trim()
+                        .Equals(q.CorrectAnswer.Trim(), StringComparison.OrdinalIgnoreCase);
 
-                string answer = (userAnswer ?? "").Trim();
+                if (isCorrect) correctCount++;
 
-                bool isCorrect = string.Equals(answer, question.CorrectAnswer.Trim(), StringComparison.OrdinalIgnoreCase);
-
-                submission.Details.Add(new SubmissionDetail
+                snapshot.Questions.Add(new ReadingQuestionResult
                 {
-                    Id = Guid.NewGuid(),
-                    SubmissionId = submission.Id,
-                    QuestionId = question.Id,
-                    QuestionType = 1, // Reading
-                    UserInput = answer,
-                    Score = isCorrect ? 1 : 0,
-                    IsCorrect = isCorrect
+                    QuestionId = q.Id,
+                    OrderNumber = q.OrderNumber,
+                    QuestionType = q.QuestionType,
+                    QuestionText = q.QuestionText,
+                    OptionsJson = q.OptionsJson,
+                    UserAnswer = userAnswer ?? "",
+                    CorrectAnswer = q.CorrectAnswer,
+                    IsCorrect = isCorrect,
+                    Explanation = q.Explanation
                 });
             }
 
-            submission.TotalScore = (short)submission.Details.Sum(x => x.Score);
+            short totalScore = (short)Math.Round(
+                (double)correctCount / questions.Count * 100
+            );
+
+            var submission = new Submission
+            {
+                UserId = request.UserId,
+                ExerciseId = request.ExerciseId,
+                TotalScore = totalScore,
+                ResultJson = JsonSerializer.Serialize(snapshot),
+                SubmittedAt = DateTime.UtcNow
+            };
 
             _context.Submissions.Add(submission);
+
+            var exerciseToUpdate = await _context.Exercises
+                .FirstAsync(x => x.Id == request.ExerciseId, cancellationToken);
+
+            exerciseToUpdate.AttemptCount++;
+
             await _context.SaveChangesAsync(cancellationToken);
 
-            // --- 4. Load saved submission + details ---
-            var saved = await _context.Submissions
-                .Include(s => s.Details)
-                .FirstAsync(s => s.Id == submission.Id, cancellationToken);
-
-            var exercise = await _context.Exercises
-                .FirstAsync(e => e.Id == model.ExerciseId, cancellationToken);
-
-            // --- 5. Map base submission data ---
-            var vm = _mapper.Map<SubmissionResultViewModel>(saved);
-            vm.ExerciseTitle = exercise.Title;
-            vm.TotalQuestions = questions.Count;
-
-            // --- 6. Map details (detail + question) ---
-            vm.Details = saved.Details
-                .Join(questions,
-                    d => d.QuestionId,
-                    q => q.Id,
-                    (d, q) => _mapper.Map<SubmissionDetailResultViewModel>((d, q)))
-                .OrderBy(x => x.OrderNumber)
-                .ToList();
-
-            return vm;
+            return new SubmissionResultViewModel
+            {
+                SubmissionId = submission.Id,
+                ExerciseId = exercise.Id,
+                ExerciseTitle = exercise.Title,
+                TotalScore = totalScore,
+                TotalQuestions = snapshot.Questions.Count,
+                SubmittedAt = submission.SubmittedAt,
+                Details = snapshot.Questions.Select(q => new SubmissionDetailResultViewModel
+                {
+                    QuestionId = q.QuestionId,
+                    OrderNumber = q.OrderNumber,
+                    QuestionText = q.QuestionText,
+                    UserAnswer = q.UserAnswer,
+                    CorrectAnswer = q.CorrectAnswer,
+                    IsCorrect = q.IsCorrect,
+                    Explanation = q.Explanation
+                }).ToList()
+            };
         }
     }
 }

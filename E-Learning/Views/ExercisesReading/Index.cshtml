@@ -1,11 +1,10 @@
-﻿@using E_Learning.ViewModel
-@model ReadingExerciseViewModel
+﻿@model E_Learning.ViewModel.ReadingExerciseViewModel
 
 <h2>@Model.ExerciseTitle</h2>
 
-@if (!string.IsNullOrEmpty(Model.Passage))
+@if (!string.IsNullOrWhiteSpace(Model.Passage))
 {
-    <div class="alert alert-light p-3">
+    <div class="border p-3 mb-4">
         @Html.Raw(Model.Passage)
     </div>
 }
@@ -15,28 +14,16 @@
 
     @foreach (var q in Model.Questions)
     {
-        <div class="card mb-3 p-3">
-            <h5>Câu @q.OrderNumber: @q.QuestionText</h5>
+        <div class="mb-3">
+            <p><strong>@q.QuestionText</strong></p>
 
-            @if (!string.IsNullOrEmpty(q.OptionsJson))
-            {
-                var ops = System.Text.Json.JsonSerializer.Deserialize<List<string>>(q.OptionsJson);
-
-                foreach (var op in ops)
-                {
-                    <label>
-                        <input type="radio" name="Answers[@q.Id]" value="@op" /> @op
-                    </label>
-        
-                    <br />
-                }
-            }
-            else
-            {
-                <input type="text" class="form-control" name="Answers[@q.Id]" placeholder="Nhập câu trả lời..." />
-            }
+            <input class="form-control"
+                   name="Answers[@q.QuestionId]"
+                   placeholder="Your answer..." />
         </div>
     }
 
-    <button type="submit" class="btn btn-primary">Nộp bài</button>
+    <button type="submit" class="btn btn-primary">
+        Submit
+    </button>
 </form>

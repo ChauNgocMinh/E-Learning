@@ -1,0 +1,58 @@
+﻿@model List<E_Learning.ViewModel.MySubmissionItemViewModel>
+
+@{
+    ViewData["Title"] = "Lịch sử bài nghe";
+}
+
+<div class="container mt-4">
+
+    <h2 class="fw-bold mb-4">Lịch sử bài nghe</h2>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">
+            Bạn chưa làm bài nghe nào.
+        </div>
+    }
+    else
+    {
+        <table class="table table-bordered table-hover align-middle">
+
+            <thead class="table-light">
+                <tr>
+                    <th>Bài nghe</th>
+                    <th>Điểm</th>
+                    <th>Ngày nộp</th>
+                    <th class="text-center">Chi tiết</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.ExerciseTitle</td>
+
+                        <td>
+                            <span class="badge @(item.TotalScore >= 60 ? "bg-success" : "bg-danger")">
+                                @item.TotalScore
+                            </span>
+                        </td>
+
+                        <td>@item.SubmittedAt.ToLocalTime()</td>
+
+                        <td class="text-center">
+                            <a asp-action="Result"
+                               asp-route-submissionId="@item.SubmissionId"
+                               class="btn btn-sm btn-outline-primary">
+                                Xem
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    }
+
+</div>

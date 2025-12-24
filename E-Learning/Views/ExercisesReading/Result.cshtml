@@ -1,39 +1,76 @@
 ﻿@model E_Learning.ViewModel.SubmissionResultViewModel
 
 @{
-    ViewData["Title"] = "Kết quả Listening";
+    ViewData["Title"] = "Kết quả bài đọc";
 }
 
-<h2>Kết quả bài làm</h2>
+<div class="container mt-4">
 
-<p><strong>Bài:</strong> @Model.ExerciseTitle</p>
-<p><strong>Thời gian nộp:</strong> @Model.SubmittedAt.ToString("dd/MM/yyyy HH:mm")</p>
-<p><strong>Điểm:</strong> @Model.TotalScore / @Model.TotalQuestions</p>
+    <!-- Header -->
+    <h2 class="fw-bold mb-3">@Model.ExerciseTitle</h2>
 
-<hr />
-
-<h4>Chi tiết từng câu</h4>
-
-@foreach (var d in Model.Details)
-{
-    <div class="card mb-3 p-3 @(d.IsCorrect ? "border-success" : "border-danger")">
-        <h5>Câu @d.OrderNumber: @d.QuestionText</h5>
-
-        <p>
-            <strong>Đáp án của bạn:</strong>
-            <span class="@(d.IsCorrect ? "text-success" : "text-danger")">@d.UserInput</span>
-        </p>
-
-        <p>
-            <strong>Đáp án đúng:</strong>
-            <span class="text-success">@d.CorrectAnswer</span>
-        </p>
-
-        @if (!string.IsNullOrEmpty(d.Explanation))
-        {
-            <p><strong>Giải thích:</strong> @d.Explanation</p>
-        }
+    <div class="mb-3">
+        <span class="badge bg-primary fs-6">
+            Điểm: @Model.TotalScore / 100
+        </span>
+        <span class="text-muted ms-3">
+            Nộp lúc: @Model.SubmittedAt.ToLocalTime()
+        </span>
     </div>
-}
 
-<a href="/Exercise/Index" class="btn btn-secondary mt-3">Quay lại danh sách bài tập</a>
+    <hr />
+
+    <!-- Questions -->
+    @foreach (var q in Model.Details.OrderBy(x => x.OrderNumber))
+    {
+        <div class="mb-4 p-3 border rounded">
+
+            <p class="fw-bold">
+                Câu @q.OrderNumber. @q.QuestionText
+            </p>
+
+            <div class="mb-2">
+                <strong>Đáp án của bạn:</strong>
+                <span class="ms-1">@q.UserAnswer</span>
+            </div>
+
+            <div class="mb-2">
+                <strong>Đáp án đúng:</strong>
+                <span class="ms-1">@q.CorrectAnswer</span>
+            </div>
+
+            @if (q.IsCorrect)
+            {
+                <span class="badge bg-success">Đúng</span>
+            }
+            else
+            {
+                <span class="badge bg-danger">Sai</span>
+            }
+
+            @if (!string.IsNullOrWhiteSpace(q.Explanation))
+            {
+                <div class="mt-2 text-muted">
+                    <strong>Giải thích:</strong>
+                    <div>@q.Explanation</div>
+                </div>
+            }
+        </div>
+    }
+
+    <!-- Actions -->
+    <div class="mt-4">
+        <a asp-action="Index"
+           asp-route-exerciseId="@Model.ExerciseId"
+           class="btn btn-outline-secondary">
+            Làm lại bài
+        </a>
+
+        <a asp-controller="ExercisesReading"
+           asp-action="MySubmissions"
+           class="btn btn-outline-primary ms-2">
+            Lịch sử bài làm
+        </a>
+    </div>
+
+</div>

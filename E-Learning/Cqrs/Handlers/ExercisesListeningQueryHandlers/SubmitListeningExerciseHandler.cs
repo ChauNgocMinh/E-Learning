@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Text.Json;
+using E_Learning.Application.Submissions.Snapshots;
 using E_Learning.Cqrs.Commands.ExercisesListeningCommands;
 using E_Learning.Domain.Entities;
 using E_Learning.Infrastructure.Persistence;
@@ -6,72 +7,113 @@ using E_Learning.ViewModel;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace E_Learning.Cqrs.Handlers.ExercisesListeningQueryHandlers
+namespace E_Learning.Cqrs.Handlers.ExercisesListeningCommandHandlers
 {
-    public class SubmitListeningExerciseHandler(IMapper _mapper, ApplicationDbContext _context)
+    public class SubmitListeningExerciseCommandHandler(ApplicationDbContext _context)
         : IRequestHandler<SubmitListeningExerciseCommand, SubmissionResultViewModel>
     {
-        public async Task<SubmissionResultViewModel> Handle(SubmitListeningExerciseCommand request, CancellationToken cancellationToken)
+     
+
+        public async Task<SubmissionResultViewModel> Handle(
+            SubmitListeningExerciseCommand request,
+            CancellationToken cancellationToken)
         {
-            var model = request.Model;
+            var exercise = await _context.Exercises
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Id == request.ExerciseId, cancellationToken);
+
+            if (exercise == null)
+                throw new Exception("Exercise not found.");
 
             var questions = await _context.ExerciseListenings
-                .Where(q => q.ExerciseId == model.ExerciseId)
-                .OrderBy(q => q.OrderNumber)
+                .Where(x => x.ExerciseId == request.ExerciseId)
+                .OrderBy(x => x.OrderNumber)
                 .ToListAsync(cancellationToken);
 
-            var submission = new Submission
+            if (!questions.Any())
+                throw new Exception("Listening exercise has no questions.");
+
+            var snapshot = new ListeningSubmissionSnapshot();
+            int correctCount = 0;
+
+            foreach (var q in questions)
             {
-                Id = Guid.NewGuid(),
-                ExerciseId = model.ExerciseId,
-                UserId = request.UserId,
-                SubmittedAt = DateTime.UtcNow,
-                Details = new List<SubmissionDetail>()
-            };
+                request.Answers.TryGetValue(q.Id, out var userAnswer);
 
-            foreach (var question in questions)
-            {
-                model.Answers.TryGetValue(question.Id, out var userAnswer);
+                string correctAnswer = q.CorrectOption.ToString();
+                bool isCorrect =
+                    !string.IsNullOrWhiteSpace(userAnswer) &&
+                    userAnswer.Equals(correctAnswer, StringComparison.OrdinalIgnoreCase);
 
-                var selected = (userAnswer ?? "").Trim().ToUpper();
-                bool isCorrect = selected == question.CorrectOption.ToString();
+                if (isCorrect) correctCount++;
 
-                submission.Details.Add(new SubmissionDetail
+                snapshot.Questions.Add(new QuestionResult
                 {
-                    Id = Guid.NewGuid(),
-                    SubmissionId = submission.Id,
-                    QuestionId = question.Id,
-                    QuestionType = 0,
-                    UserInput = selected,
-                    Score = isCorrect ? 1 : 0,
-                    IsCorrect = isCorrect
+                    QuestionId = q.Id,
+                    OrderNumber = q.OrderNumber,
+                    QuestionText = q.QuestionText,
+
+                    OptionA = q.OptionA,
+                    OptionB = q.OptionB,
+                    OptionC = q.OptionC,
+                    OptionD = q.OptionD,
+
+                    UserAnswer = userAnswer ?? "",
+                    CorrectAnswer = correctAnswer,
+                    IsCorrect = isCorrect,
+                    Explanation = q.Explanation
                 });
             }
 
-            submission.TotalScore = (short)submission.Details.Sum(x => x.Score);
+            short totalScore = (short)Math.Round(
+                (double)correctCount / questions.Count * 100
+            );
+
+            var submission = new Submission
+            {
+                UserId = request.UserId,
+                ExerciseId = request.ExerciseId,
+                TotalScore = totalScore,
+                ResultJson = JsonSerializer.Serialize(snapshot),
+                SubmittedAt = DateTime.UtcNow
+            };
 
             _context.Submissions.Add(submission);
+
+            var exerciseToUpdate = await _context.Exercises
+                .FirstAsync(x => x.Id == request.ExerciseId, cancellationToken);
+
+            exerciseToUpdate.AttemptCount++;
+
             await _context.SaveChangesAsync(cancellationToken);
 
-            // Load lại submission + details
-            var saved = await _context.Submissions
-                .Include(s => s.Details)
-                .FirstAsync(s => s.Id == submission.Id, cancellationToken);
+            return new SubmissionResultViewModel
+            {
+                SubmissionId = submission.Id,
+                ExerciseId = exercise.Id,
+                ExerciseTitle = exercise.Title,
+                TotalScore = submission.TotalScore,
+                TotalQuestions = snapshot.Questions.Count,
+                SubmittedAt = submission.SubmittedAt,
 
-            var exercise = await _context.Exercises.FirstAsync(e => e.Id == saved.ExerciseId, cancellationToken);
-
-            var result = _mapper.Map<SubmissionResultViewModel>(saved);
-            result.ExerciseTitle = exercise.Title;
-            result.TotalQuestions = questions.Count;
-
-            // Map tuple detail + question vào ViewModel
-            result.Details = saved.Details
-                .Join(questions, d => d.QuestionId, q => q.Id,
-                    (d, q) => _mapper.Map<SubmissionDetailResultViewModel>((d, q)))
-                .OrderBy(x => x.OrderNumber)
-                .ToList();
-
-            return result;
+                Details = snapshot.Questions.Select(q => new SubmissionDetailResultViewModel
+                {
+                    QuestionId = q.QuestionId,
+                    OrderNumber = q.OrderNumber,
+                    QuestionText = q.QuestionText,
+                    Options = new SubmissionOptionSet
+                    {
+                        A = q.OptionA,
+                        B = q.OptionB,
+                        C = q.OptionC,
+                        D = q.OptionD
+                    },
+                    UserAnswer = q.UserAnswer,
+                    CorrectAnswer = q.CorrectAnswer,
+                    IsCorrect = q.IsCorrect,
+                    Explanation = q.Explanation
+                }).ToList()
+            };
         }
     }
 }

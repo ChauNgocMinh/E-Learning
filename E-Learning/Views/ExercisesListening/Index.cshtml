@@ -1,52 +1,91 @@
 ﻿@model E_Learning.ViewModel.ListeningExerciseViewModel
 
 @{
-    ViewData["Title"] = "Listening Exercise";
+    ViewData["Title"] = Model.ExerciseTitle;
 }
 
-<h2>@Model.ExerciseTitle</h2>
+<div class="container mt-4">
 
-@if (!string.IsNullOrEmpty(Model.AudioUrl))
-{
-    <div class="mt-3 mb-4">
-        <audio controls>
-            <source src="@Model.AudioUrl" type="audio/mpeg" />
-            Trình duyệt không hỗ trợ phát âm thanh.
-        </audio>
-    </div>
-}
+  
+    <h2 class="fw-bold mb-3">@Model.ExerciseTitle</h2>
 
-<form asp-action="Submit" method="post">
-    <input type="hidden" name="ExerciseId" value="@Model.ExerciseId" />
-
-    @foreach (var q in Model.Questions)
+   
+    @if (!string.IsNullOrWhiteSpace(Model.AudioUrl))
     {
-        <div class="card mb-3 p-3">
-            <h5>Câu @q.OrderNumber: @q.QuestionText</h5>
-
-            <div class="mt-2">
-                <label>
-                    <input type="radio" name="Answers[@q.Id]" value="A" />
-                    A. @q.OptionA
-                </label><br />
-
-                <label>
-                    <input type="radio" name="Answers[@q.Id]" value="B" />
-                    B. @q.OptionB
-                </label><br />
-
-                <label>
-                    <input type="radio" name="Answers[@q.Id]" value="C" />
-                    C. @q.OptionC
-                </label><br />
-
-                <label>
-                    <input type="radio" name="Answers[@q.Id]" value="D" />
-                    D. @q.OptionD
-                </label>
-            </div>
+        <div class="mb-4">
+            <audio controls class="w-100">
+                <source src="@Model.AudioUrl" type="audio/mpeg" />
+                Trình duyệt của bạn không hỗ trợ audio.
+            </audio>
         </div>
     }
 
-    <button type="submit" class="btn btn-primary">Nộp bài</button>
-</form>
+    <!-- Form -->
+    <form asp-action="Submit" method="post">
+
+        <input type="hidden" name="ExerciseId" value="@Model.ExerciseId" />
+
+        @if (Model.Questions == null || !Model.Questions.Any())
+        {
+            <div class="alert alert-warning">
+                Bài nghe hiện chưa có câu hỏi.
+            </div>
+        }
+        else
+        {
+            <div class="list-group">
+
+                @for (int i = 0; i < Model.Questions.Count; i++)
+                {
+                    var q = Model.Questions[i];
+
+                    <div class="list-group-item mb-3 shadow-sm p-3">
+
+                        <p class="fw-bold mb-2">
+                            Câu @(i + 1). @q.QuestionText
+                        </p>
+
+                        <div class="ps-2">
+                            <label class="d-block mb-1">
+                                <input type="radio"
+                                       name="Answers[@q.QuestionId]"
+                                       value="A"
+                                       required />
+                                A. @q.OptionA
+                            </label>
+
+                            <label class="d-block mb-1">
+                                <input type="radio"
+                                       name="Answers[@q.QuestionId]"
+                                       value="B" />
+                                B. @q.OptionB
+                            </label>
+
+                            <label class="d-block mb-1">
+                                <input type="radio"
+                                       name="Answers[@q.QuestionId]"
+                                       value="C" />
+                                C. @q.OptionC
+                            </label>
+
+                            <label class="d-block mb-1">
+                                <input type="radio"
+                                       name="Answers[@q.QuestionId]"
+                                       value="D" />
+                                D. @q.OptionD
+                            </label>
+                        </div>
+
+                    </div>
+                }
+            </div>
+
+            <button type="submit"
+                    class="btn btn-primary btn-lg mt-4 px-5">
+                Nộp bài
+            </button>
+        }
+
+    </form>
+
+</div>

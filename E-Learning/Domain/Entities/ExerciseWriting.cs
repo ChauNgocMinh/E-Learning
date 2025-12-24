@@ -5,23 +5,22 @@ namespace E_Learning.Domain.Entities
 {
     public class ExerciseWriting : BaseEntity
     {
-        public Guid Id { get; set; }
-
+      
         public Guid ExerciseId { get; set; }
 
         [CustomRequired]
         [CustomMaxLength(2000)]
-        public string PromptText { get; set; } = null!; // Task 1 or Task 2 prompt
+        public string PromptText { get; set; } = null!; 
 
         [CustomMaxLength(500)]
-        public string? SampleImageUrl { get; set; } // diagram, chart, map
+        public string? SampleImageUrl { get; set; }  
 
         [CustomMaxLength(4000)]
-        public string? ModelAnswer { get; set; } // high-band sample 
+        public string? ModelAnswer { get; set; }  
 
-        public string? RubricJson { get; set; } // scoring structure
+        public string? RubricJson { get; set; }  
 
-        // Navigation
+      
         public Exercise Exercise { get; set; } = null!;
     }
 }

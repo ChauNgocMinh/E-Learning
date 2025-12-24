@@ -1,19 +1,17 @@
-﻿namespace E_Learning.Domain.Entities
+﻿using E_Learning.Domain.Comon;
+
+namespace E_Learning.Domain.Entities
 {
 
-    public class Submission
+    public class Submission : BaseEntity
     {
-        public Guid Id { get; set; }
-
-        public Guid UserId { get; set; }      // FK → AspNetUsers.Id
-        public Guid ExerciseId { get; set; }  // FK → Exercise.Id
-
+        public Guid UserId { get; set; }
+        public Guid ExerciseId { get; set; }
+        public string? ResultJson { get; set; }
         public short TotalScore { get; set; }
 
         public DateTime SubmittedAt { get; set; } = DateTime.UtcNow;
 
-        // Navigation
         public Exercise Exercise { get; set; } = null!;
-        public ICollection<SubmissionDetail>? Details { get; set; }
     }
 }
