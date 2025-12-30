@@ -1,16 +1,9 @@
-﻿namespace E_Learning.ViewModel
+﻿namespace E_Learning.Submissions.Snapshots
 {
-    public class WritingResultViewModel
+   
+
+    public class WritingSubmissionSnapshot
     {
-        public Guid SubmissionId { get; set; }
-        public Guid ExerciseId { get; set; }
-        public string ExerciseTitle { get; set; } = "";
-        public string EssayText { get; set; } = "";
-
-        public short TotalScore { get; set; }
-        public DateTime SubmittedAt { get; set; }
-
-     
         public double Band { get; set; }
 
         public string TaskResponse { get; set; } = "";
@@ -22,4 +15,5 @@
         public string Weaknesses { get; set; } = "";
         public string Suggestions { get; set; } = "";
     }
+
 }

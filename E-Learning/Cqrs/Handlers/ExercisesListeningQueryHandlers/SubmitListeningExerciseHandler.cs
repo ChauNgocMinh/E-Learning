@@ -1,7 +1,9 @@
 ﻿using System.Text.Json;
+using AutoMapper;
 using E_Learning.Application.Submissions.Snapshots;
 using E_Learning.Cqrs.Commands.ExercisesListeningCommands;
 using E_Learning.Domain.Entities;
+using E_Learning.Domain.Enums;
 using E_Learning.Infrastructure.Persistence;
 using E_Learning.ViewModel;
 using MediatR;
@@ -9,34 +11,24 @@ using Microsoft.EntityFrameworkCore;
 
 namespace E_Learning.Cqrs.Handlers.ExercisesListeningCommandHandlers
 {
-    public class SubmitListeningExerciseCommandHandler(ApplicationDbContext _context)
+    public class SubmitListeningExerciseCommandHandler(ApplicationDbContext _context, IMapper _mapper)
         : IRequestHandler<SubmitListeningExerciseCommand, SubmissionResultViewModel>
     {
-     
-
         public async Task<SubmissionResultViewModel> Handle(
             SubmitListeningExerciseCommand request,
             CancellationToken cancellationToken)
         {
             var exercise = await _context.Exercises
-                .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.Id == request.ExerciseId, cancellationToken);
+                .Include(x => x.ExerciseListenings)
+                .FirstOrDefaultAsync(x => x.Id.Equals(request.ExerciseId) && x.Skill.Equals(SkillType.Listening), cancellationToken);
 
-            if (exercise == null)
+            if (exercise == null || exercise.ExerciseListenings is null)
                 throw new Exception("Exercise not found.");
-
-            var questions = await _context.ExerciseListenings
-                .Where(x => x.ExerciseId == request.ExerciseId)
-                .OrderBy(x => x.OrderNumber)
-                .ToListAsync(cancellationToken);
-
-            if (!questions.Any())
-                throw new Exception("Listening exercise has no questions.");
 
             var snapshot = new ListeningSubmissionSnapshot();
             int correctCount = 0;
 
-            foreach (var q in questions)
+            foreach (var q in exercise.ExerciseListenings)
             {
                 request.Answers.TryGetValue(q.Id, out var userAnswer);
 
@@ -47,26 +39,19 @@ namespace E_Learning.Cqrs.Handlers.ExercisesListeningCommandHandlers
 
                 if (isCorrect) correctCount++;
 
-                snapshot.Questions.Add(new QuestionResult
-                {
-                    QuestionId = q.Id,
-                    OrderNumber = q.OrderNumber,
-                    QuestionText = q.QuestionText,
+                var result = _mapper.Map<QuestionResult>(q);
 
-                    OptionA = q.OptionA,
-                    OptionB = q.OptionB,
-                    OptionC = q.OptionC,
-                    OptionD = q.OptionD,
+                result.UserAnswer = userAnswer ?? "";
+                result.CorrectAnswer = correctAnswer;
+                result.IsCorrect = isCorrect;
 
-                    UserAnswer = userAnswer ?? "",
-                    CorrectAnswer = correctAnswer,
-                    IsCorrect = isCorrect,
-                    Explanation = q.Explanation
-                });
+                snapshot.Questions.Add(result);
+
+
             }
 
             short totalScore = (short)Math.Round(
-                (double)correctCount / questions.Count * 100
+                (double)correctCount / exercise.ExerciseListenings.Count * 100
             );
 
             var submission = new Submission
@@ -80,11 +65,8 @@ namespace E_Learning.Cqrs.Handlers.ExercisesListeningCommandHandlers
 
             _context.Submissions.Add(submission);
 
-            var exerciseToUpdate = await _context.Exercises
-                .FirstAsync(x => x.Id == request.ExerciseId, cancellationToken);
-
-            exerciseToUpdate.AttemptCount++;
-
+            exercise.AttemptCount++;
+            _context.Exercises.Update(exercise);
             await _context.SaveChangesAsync(cancellationToken);
 
             return new SubmissionResultViewModel
