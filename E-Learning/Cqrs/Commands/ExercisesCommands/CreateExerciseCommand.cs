@@ -4,7 +4,7 @@ using System;
 
 namespace E_Learning.Cqrs.Commands.ExercisesCommands
 {
-    // Command dùng để tạo mới một bài tập
+  
     public class CreateExerciseCommand : IRequest<Guid>
     {
         public SkillType Skill { get; set; }

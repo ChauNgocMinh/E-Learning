@@ -4,7 +4,7 @@ using System;
 
 namespace E_Learning.Cqrs.Commands.ExercisesCommands
 {
-    // Command dùng để cập nhật bài tập
+  
     public class UpdateExerciseCommand : IRequest<bool>
     {
         public Guid Id { get; set; }

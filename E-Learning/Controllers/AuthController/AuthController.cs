@@ -5,19 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace E_Learning.Controllers;
 
-public class AuthController : Controller
+public class AuthController(UserManager<ApplicationUser> _userManager, SignInManager<ApplicationUser> _signInManager) : Controller
 {
-    private readonly UserManager<ApplicationUser> _userManager;
-    private readonly SignInManager<ApplicationUser> _signInManager;
-
-    public AuthController(
-        UserManager<ApplicationUser> userManager,
-        SignInManager<ApplicationUser> signInManager)
-    {
-        _userManager = userManager;
-        _signInManager = signInManager;
-    }
-
+ 
     public IActionResult Register() => View();
 
     [HttpPost]
@@ -39,7 +29,9 @@ public class AuthController : Controller
 
         if (result.Succeeded)
         {
-            await _signInManager.SignInAsync(user, false);
+            
+            await _signInManager.SignInAsync(user, isPersistent: true);
+
             return RedirectToAction("Index", "Home");
         }
 
@@ -71,7 +63,7 @@ public class AuthController : Controller
         var result = await _signInManager.PasswordSignInAsync(
             user,
             model.Password,
-            model.RememberMe,
+            model.RememberMe,      
             lockoutOnFailure: true
         );
 
